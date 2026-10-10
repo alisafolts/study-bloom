@@ -1152,18 +1152,49 @@
         grid-template-columns: 1fr;
       }
 
+      body { padding: 10px; }
+      .app { border-radius: 20px; }
       .header,
       .layout {
-        padding-left: 18px;
-        padding-right: 18px;
+        padding-left: 14px;
+        padding-right: 14px;
       }
 
-      .header { padding-top: 26px; }
-      .layout { padding-top: 20px; }
-      .step-link { font-size: 0.82rem; }
-      .header-top { flex-wrap: wrap; }
-      .theme-toggle { margin-left: auto; }
-      .crossword-board { min-height: 320px; padding: 12px; }
+      .header { padding-top: 20px; padding-bottom: 16px; }
+      .layout { padding-top: 16px; padding-bottom: 20px; }
+      .header-top { align-items: center; flex-wrap: nowrap; gap: 8px; }
+      .brand-nav { min-width: 0; gap: 8px; }
+      .site-nav { flex-wrap: wrap; gap: 6px; }
+      .site-nav-link { min-height: 42px; padding: 8px 10px; font-size: 0.82rem; }
+      .theme-toggle {
+        flex: 0 0 42px;
+        justify-content: center;
+        width: 42px;
+        height: 42px;
+        padding: 8px;
+        margin-left: auto;
+      }
+      #themeLabel { display: none; }
+      h1, .subtitle { max-width: 100%; }
+      h1 { font-size: clamp(2rem, 9vw, 3rem); overflow-wrap: anywhere; }
+      .subtitle { font-size: 0.94rem; line-height: 1.5; }
+      .subject-picker { margin-top: 18px; }
+      .subject-button { min-height: 44px; padding: 9px 10px; font-size: 0.84rem; }
+      .custom-material-button { width: 100%; min-height: 44px; }
+      .steps { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 16px; }
+      .step-link { min-height: 44px; font-size: 0.86rem; }
+      .panel { padding: 15px; border-radius: 16px; }
+      .crossword-board {
+        min-height: 280px;
+        padding: 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        justify-content: flex-start;
+        overscroll-behavior-inline: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+      .crossword-grid { flex: 0 0 auto; max-width: none; }
+      .crossword-controls button { flex: 1 1 100%; min-height: 44px; }
       .subjects { gap: 7px; }
       .subject-menu { position: static; }
       .topic-panel {
@@ -1180,6 +1211,18 @@
       .subject-menu:focus-within .topic-panel { display: grid; }
       .subject-menu { flex: 1 1 45%; }
       .subject-button { width: 100%; justify-content: center; }
+      .material-dialog { width: calc(100% - 16px); max-height: 90vh; border-radius: 18px; }
+      .material-dialog-content { padding: 17px; }
+      .material-dialog .button-row button { width: 100%; min-height: 44px; }
+      .material-dialog textarea { min-height: 170px; font-size: 16px; }
+    }
+
+    @media (max-width: 360px) {
+      body { padding: 6px; }
+      .header, .layout { padding-right: 10px; padding-left: 10px; }
+      .panel { padding: 12px; }
+      .site-nav-link { padding-right: 8px; padding-left: 8px; font-size: 0.78rem; }
+      .eyebrow { padding-right: 9px; padding-left: 9px; font-size: 0.68rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {

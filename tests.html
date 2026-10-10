@@ -270,12 +270,44 @@
     }
 
     @media (max-width: 580px) {
-      body { padding: 12px; }
-      header { padding: 22px 18px; }
-      main { padding: 18px; }
-      .header-top { flex-wrap: wrap; }
-      .panel { padding: 16px; }
+      body { padding: 10px; }
+      .app { border-radius: 20px; }
+      header { padding: 20px 16px; }
+      .header-top { align-items: center; flex-wrap: nowrap; gap: 8px; margin-bottom: 20px; }
+      .brand-nav { min-width: 0; gap: 8px; }
+      .brand-nav nav { display: flex; flex-wrap: wrap; gap: 6px; }
+      .nav-link { min-height: 42px; padding: 9px 11px; }
+      #themeToggle {
+        display: grid;
+        flex: 0 0 42px;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        padding: 0;
+        font-size: 1.05rem;
+      }
+      #themeLabel { display: none; }
+      h1 { font-size: clamp(1.8rem, 9vw, 2.5rem); overflow-wrap: anywhere; }
+      .subtitle { font-size: 0.94rem; line-height: 1.5; }
+      main { gap: 14px; padding: 16px 12px 20px; }
+      .panel { padding: 15px; border-radius: 16px; }
       .preset-grid { grid-template-columns: 1fr; }
+      .question-count { max-width: none; }
+      .preset-card { min-height: 64px; }
+      input[type="file"] { width: 100%; }
+      textarea { min-height: 180px; padding: 12px; font-size: 16px; }
+      .actions > button { width: 100%; min-height: 44px; }
+      .question { padding: 14px 12px; }
+      .option { min-height: 44px; align-items: center; }
+      .option input { flex: 0 0 auto; width: 18px; height: 18px; }
+    }
+
+    @media (max-width: 360px) {
+      body { padding: 6px; }
+      header { padding-right: 12px; padding-left: 12px; }
+      main { padding-right: 8px; padding-left: 8px; }
+      .panel { padding: 12px; }
+      .nav-link { padding-right: 9px; padding-left: 9px; font-size: 0.9rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -295,7 +327,7 @@
             <a class="nav-link" href="tests.html" aria-current="page">Тесты</a>
           </nav>
         </div>
-        <button id="themeToggle" type="button" aria-label="Включить ночную тему" aria-pressed="false">🌙 Ночная тема</button>
+        <button id="themeToggle" type="button" aria-label="Включить ночную тему" aria-pressed="false"><span id="themeIcon" aria-hidden="true">🌙</span><span id="themeLabel">Ночная тема</span></button>
       </div>
       <h1>Составь тест по лекции</h1>
       <p class="subtitle">Вставь конспект или загрузи текстовый файл, чтобы получить тест с вариантами ответов и сразу проверить себя.</p>
@@ -348,6 +380,8 @@
   <script>
     (() => {
       const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = document.getElementById('themeIcon');
+      const themeLabel = document.getElementById('themeLabel');
       const fileInput = document.getElementById('fileInput');
       const lectureInput = document.getElementById('lectureInput');
       const sourceMessage = document.getElementById('sourceMessage');
@@ -757,7 +791,8 @@
       function applyTheme(theme) {
         const isNight = theme === 'night';
         document.documentElement.dataset.theme = isNight ? 'night' : 'day';
-        themeToggle.textContent = isNight ? '☀️ Дневная тема' : '🌙 Ночная тема';
+        themeIcon.textContent = isNight ? '☀️' : '🌙';
+        themeLabel.textContent = isNight ? 'Дневная тема' : 'Ночная тема';
         themeToggle.setAttribute('aria-pressed', String(isNight));
         themeToggle.setAttribute('aria-label', isNight ? 'Включить дневную тему' : 'Включить ночную тему');
       }
