@@ -52,6 +52,8 @@
       transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
     }
 
+    #themeToggle { display: inline-flex; align-items: center; gap: 8px; }
+
     button:hover, .nav-link:hover { transform: translateY(-2px); }
     button:focus-visible, a:focus-visible, textarea:focus-visible, input:focus-visible {
       outline: 3px solid rgba(198, 112, 151, 0.55);
@@ -327,7 +329,7 @@
             <a class="nav-link" href="tests.html" aria-current="page">Тесты</a>
           </nav>
         </div>
-        <button id="themeToggle" type="button" aria-label="Включить ночную тему" aria-pressed="false"><span id="themeIcon" aria-hidden="true">🌙</span><span id="themeLabel">Ночная тема</span></button>
+        <button id="themeToggle" type="button" aria-label="Включить ночную тему" aria-pressed="false"><span id="themeIcon" aria-hidden="true">🌙</span> <span id="themeLabel">Ночная тема</span></button>
       </div>
       <h1>Составь тест по лекции</h1>
       <p class="subtitle">Вставь конспект или загрузи текстовый файл, чтобы получить тест с вариантами ответов и сразу проверить себя.</p>
