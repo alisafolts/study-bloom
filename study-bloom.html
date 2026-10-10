@@ -706,7 +706,10 @@
       align-content: center;
       width: 100%;
       max-width: min(560px, 100%);
+      grid-template-columns: repeat(var(--crossword-columns), minmax(22px, 1fr));
     }
+
+    .mobile-grid-size { display: none; }
 
     .cell {
       position: relative;
@@ -1228,7 +1231,45 @@
         overscroll-behavior-inline: contain;
         -webkit-overflow-scrolling: touch;
       }
-      .crossword-grid { flex: 0 0 auto; max-width: none; }
+      .crossword-grid {
+        flex: 0 0 auto;
+        width: max-content;
+        max-width: none;
+        grid-template-columns: repeat(var(--crossword-columns), var(--crossword-cell-size, 34px));
+      }
+      .mobile-grid-size {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 4px 12px;
+        margin: 0 0 10px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 13px;
+        background: rgba(255, 255, 255, 0.56);
+      }
+      .mobile-grid-size label { font-size: 0.88rem; font-weight: 700; }
+      .mobile-grid-size output {
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-variant-numeric: tabular-nums;
+      }
+      .mobile-grid-size input {
+        grid-column: 1 / -1;
+        width: 100%;
+        height: 44px;
+        margin: 0;
+        accent-color: var(--primary-2);
+        touch-action: pan-y;
+      }
+      .mobile-grid-size input:focus-visible {
+        outline: 3px solid rgba(198, 112, 151, 0.55);
+        outline-offset: 2px;
+      }
+      html[data-theme="night"] .mobile-grid-size {
+        background: rgba(47, 37, 54, 0.84);
+        border-color: var(--border);
+      }
       .crossword-controls button { flex: 1 1 100%; min-height: 44px; }
       .subjects { gap: 7px; }
       .subject-menu { position: static; }
@@ -1335,6 +1376,11 @@
         <div>
           <h2 class="section-title">Кроссворд</h2>
           <p class="section-help">Впиши по одной букве в каждую клетку и нажми «Проверить ответы».</p>
+          <div class="mobile-grid-size">
+            <label for="cellSize">Размер клеток</label>
+            <output id="cellSizeValue" for="cellSize">34 px</output>
+            <input id="cellSize" type="range" min="24" max="48" step="2" value="34" aria-label="Размер клеток кроссворда" />
+          </div>
           <div class="crossword-board">
             <div id="crossword" class="crossword-grid"></div>
           </div>
@@ -1403,6 +1449,8 @@
     const openMaterialDialogButton = document.getElementById('openMaterialDialog');
     const closeMaterialDialogButton = document.getElementById('closeMaterialDialog');
     const crosswordNode = document.getElementById('crossword');
+    const cellSizeNode = document.getElementById('cellSize');
+    const cellSizeValueNode = document.getElementById('cellSizeValue');
     const acrossCluesNode = document.getElementById('acrossClues');
     const downCluesNode = document.getElementById('downClues');
     const crosswordControls = document.getElementById('crosswordControls');
@@ -1425,6 +1473,15 @@
     const THEME_STORAGE_KEY = 'lecture-crossword-theme';
     const subjectsNode = document.getElementById('subjects');
     const topicStatusNode = document.getElementById('topicStatus');
+
+    function updateCellSize() {
+      crosswordNode.style.setProperty('--crossword-cell-size', `${cellSizeNode.value}px`);
+      cellSizeValueNode.value = `${cellSizeNode.value} px`;
+      cellSizeValueNode.textContent = `${cellSizeNode.value} px`;
+    }
+
+    cellSizeNode.addEventListener('input', updateCellSize);
+    updateCellSize();
 
     openMaterialDialogButton.addEventListener('click', () => {
       materialDialog.showModal();
@@ -1895,7 +1952,7 @@
 
     function renderCrossword(board, placements) {
       crosswordNode.innerHTML = '';
-      crosswordNode.style.gridTemplateColumns = `repeat(${board[0].length}, minmax(22px, 1fr))`;
+      crosswordNode.style.setProperty('--crossword-columns', board[0].length);
       crosswordSolution = board.map(row => [...row]);
 
       activePlacements = getNumberedPlacements(placements);
