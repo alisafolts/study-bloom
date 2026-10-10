@@ -186,6 +186,8 @@
       white-space: nowrap;
     }
 
+    html[data-theme="night"] #themeLabel { display: none; }
+
     .eyebrow {
       position: relative;
       z-index: 1;
@@ -242,6 +244,33 @@
       color: var(--muted);
       font-size: 0.84rem;
       font-weight: 650;
+    }
+
+    .word-count-setting {
+      display: grid;
+      gap: 6px;
+      max-width: 340px;
+      margin: 0 0 14px;
+    }
+
+    .word-count-setting label { font-size: 0.88rem; font-weight: 700; }
+
+    .word-count-setting select {
+      width: 100%;
+      min-height: 42px;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.76);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .word-count-help {
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
     }
 
     .custom-material-button {
@@ -1186,6 +1215,7 @@
       h1 { font-size: clamp(2rem, 9vw, 3rem); overflow-wrap: anywhere; }
       .subtitle { font-size: 0.94rem; line-height: 1.5; }
       .subject-picker { margin-top: 18px; }
+      .word-count-setting { max-width: none; }
       .subject-button { min-height: 44px; padding: 9px 10px; font-size: 0.84rem; }
       .custom-material-button { width: 100%; min-height: 44px; }
       .steps { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 16px; }
@@ -1266,7 +1296,17 @@
       </p>
       <section class="subject-picker" aria-labelledby="subjectPickerTitle">
         <h2 class="subject-picker-title" id="subjectPickerTitle">Или выбери готовый предмет и тему</h2>
-        <nav class="subjects" id="subjects" aria-label="Готовые предметы и темы"></nav>
+          <div class="word-count-setting">
+            <label for="wordCount">Количество слов и слотов</label>
+            <select id="wordCount">
+              <option value="5">5 слов</option>
+              <option value="10" selected>10 слов</option>
+              <option value="15">15 слов</option>
+              <option value="20">20 слов</option>
+            </select>
+          </div>
+          <p class="word-count-help">Одно слово занимает один слот. Если материала недостаточно, кроссворд будет содержать меньше слов.</p>
+          <nav class="subjects" id="subjects" aria-label="Готовые предметы и темы"></nav>
         <p class="topic-status" id="topicStatus" aria-live="polite">Наведи на предмет и выбери тему — кроссворд создастся сам.</p>
         <button class="custom-material-button" id="openMaterialDialog" type="button">Или создай по своей лекции / файлу</button>
       </section>
@@ -1377,6 +1417,7 @@
     const gridCountNode = document.getElementById('gridCount');
     const aiSummaryNode = document.getElementById('aiSummary');
     const fileHelpNode = document.getElementById('fileHelp');
+    const wordCountNode = document.getElementById('wordCount');
     let crosswordSolution = [];
     let activePlacements = [];
     let activeCluesByWord = new Map();
@@ -1618,7 +1659,7 @@
         .trim();
     }
 
-    function extractKeywords(text) {
+    function extractKeywords(text, limit = 12) {
       const tokens = normalizeText(text).split(/\s+/);
       const counts = {};
 
@@ -1630,7 +1671,7 @@
 
       return Object.entries(counts)
         .sort((a, b) => b[1] - a[1])
-        .slice(0, 12)
+        .slice(0, limit)
         .map(([word, count]) => ({ word: word.toUpperCase(), count }));
     }
 
@@ -1652,7 +1693,7 @@
     }
 
     function buildCrossword(words) {
-      const size = 12;
+      const size = Math.max(12, Math.ceil(words.length * 0.9));
       const board = Array.from({ length: size }, () => Array(size).fill(''));
       const placements = [];
       const ordered = [...words].sort((a, b) => b.word.length - a.word.length);
@@ -1669,7 +1710,7 @@
       for (const item of fallbackWords) {
         let placed = false;
         const word = item.word;
-        const minSearch = 100;
+        const minSearch = 300;
 
         for (let attempt = 0; attempt < minSearch; attempt++) {
           const dir = Math.random() > 0.5 ? 'across' : 'down';
@@ -1715,9 +1756,7 @@
             }
           }
 
-          if (!strongIntersect && placements.length > 0) {
-            if (Math.random() > 0.45) continue;
-          }
+          if (!strongIntersect && placements.length > 0 && Math.random() > 0.45) continue;
 
           for (const pos of positions) {
             board[pos.r][pos.c] = pos.value;
@@ -1728,7 +1767,7 @@
         }
 
         if (!placed) {
-          break;
+          continue;
         }
       }
 
@@ -2044,22 +2083,30 @@
         return false;
       }
 
-      const keywords = extractKeywords(text);
+      const requestedWordCount = Number(wordCountNode.value);
+      const keywords = extractKeywords(text, requestedWordCount);
       const wordsCount = normalizeText(text).split(/\s+/).filter(Boolean).length;
-      const topWords = keywords.slice(0, 8);
-
-      const puzzleWords = preset
+      const extractedWords = keywords.map((item, idx) => {
+        const context = findContext(text, item.word);
+        const clue = generateClueText(item.word, context);
+        return { ...item, clue, index: idx + 1 };
+      });
+      const presetWords = preset
         ? preset.words.map((item, idx) => ({
             word: item.word.toLocaleUpperCase('ru-RU'),
             clue: item.clue,
             count: 1,
             index: idx + 1
           }))
-        : topWords.map((item, idx) => {
-            const context = findContext(text, item.word);
-            const clue = generateClueText(item.word, context);
-            return { ...item, clue, index: idx + 1 };
-          });
+        : [];
+      const seenWords = new Set();
+      const puzzleWords = [...presetWords, ...extractedWords]
+        .filter(item => {
+          if (seenWords.has(item.word)) return false;
+          seenWords.add(item.word);
+          return true;
+        })
+        .slice(0, requestedWordCount);
 
       if (!puzzleWords.length) {
         aiSummaryNode.textContent = 'Не удалось выделить ключевые понятия. Попробуйте вставить более длинный текст лекции.';
@@ -2080,8 +2127,8 @@
       wordsCountNode.textContent = wordsCount;
       keywordCountNode.textContent = placedWords.length;
       aiSummaryNode.textContent = preset
-        ? `Готовый кроссворд «${preset.name}»: добавлено слов ${placedWords.length}. Впиши ответы в клетки и нажми «Проверить ответы».`
-        : `Выделены ключевые термины, в сетку добавлено слов: ${placedWords.length}. Впиши ответы в клетки и нажми «Проверить ответы».`;
+        ? `Готовый кроссворд «${preset.name}»: добавлено слов ${placedWords.length} из ${requestedWordCount}. Впиши ответы в клетки и нажми «Проверить ответы».`
+        : `Выделены ключевые термины, в сетку добавлено слов: ${placedWords.length} из ${requestedWordCount}. Впиши ответы в клетки и нажми «Проверить ответы».`;
       aiSummaryNode.classList.remove('updated');
       void aiSummaryNode.offsetWidth;
       aiSummaryNode.classList.add('updated');
