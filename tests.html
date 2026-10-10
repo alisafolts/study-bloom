@@ -765,9 +765,8 @@
               answer: { normalized: question.answer.toLocaleLowerCase('ru-RU'), word: question.answer },
               options: question.options.map(word => ({ normalized: word.toLocaleLowerCase('ru-RU'), word }))
             }));
-            const additionalQuestions = shuffled(questionBanks[preset.subject]
-              .filter(question => !topicQuestions.some(existing => existing.prompt === question.prompt)))
-              .slice(0, Math.max(0, requestedCount - topicQuestions.length))
+            const bankQuestions = questionBanks[preset.subject]
+              .filter(question => !topicQuestions.some(existing => existing.prompt === question.prompt))
               .map(question => {
                 const answer = question.answer;
                 const distractors = shuffled(questionBanks[preset.subject]
@@ -781,7 +780,7 @@
                   options: options.map(word => ({ normalized: word.toLocaleLowerCase('ru-RU'), word }))
                 };
               });
-            const questions = [...topicQuestions, ...additionalQuestions].slice(0, requestedCount);
+            const questions = shuffled([...topicQuestions, ...bankQuestions]).slice(0, requestedCount);
             showQuestions(questions, `Готовый тест: ${preset.subject} — ${preset.title}. ${questions.length} вопросов из тематического банка. Выбери один вариант в каждом вопросе.`, `Готовый тест «${preset.title}» на ${questions.length} вопросов загружен.`);
           });
           presetTestsNode.appendChild(button);
