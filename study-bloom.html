@@ -186,6 +186,57 @@
       white-space: nowrap;
     }
 
+    .appearance-controls {
+      display: flex;
+      flex: 0 0 auto;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .language-picker select {
+      min-height: 42px;
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, 0.64);
+      color: var(--text);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .color-picker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      padding: 5px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.64);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .color-picker input {
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: transparent;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .color-picker input::-webkit-color-swatch-wrapper { padding: 0; }
+    .color-picker input::-webkit-color-swatch,
+    .color-picker input::-moz-color-swatch {
+      border: 0;
+      border-radius: 50%;
+    }
+
     .eyebrow {
       position: relative;
       z-index: 1;
@@ -287,6 +338,47 @@
       flex-wrap: wrap;
       gap: 9px;
     }
+
+    .open-subject-dialog {
+      min-height: 46px;
+      padding: 11px 17px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(var(--accent-rgb), 0.16);
+      color: var(--text);
+      font-weight: 750;
+    }
+
+    .subject-dialog {
+      width: min(760px, calc(100% - 28px));
+      max-width: none;
+      max-height: min(82vh, 780px);
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 24px 80px rgba(20, 12, 28, 0.38);
+    }
+
+    .subject-dialog::backdrop { background: rgba(18, 12, 24, 0.62); backdrop-filter: blur(4px); }
+    .subject-dialog-content { display: grid; gap: 16px; max-height: inherit; padding: 22px; overflow-y: auto; }
+    .subject-dialog-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .subject-dialog-heading h2 { margin: 0; }
+    .subject-dialog-heading p { margin: 5px 0 0; color: var(--muted); line-height: 1.45; }
+    .subject-dialog-close { flex: 0 0 auto; min-width: 42px; min-height: 42px; padding: 6px; }
+    .subject-dialog-back { justify-self: start; }
+    .subject-dialog-subjects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); gap: 9px; }
+    .subject-dialog [hidden] { display: none !important; }
+    .subject-dialog-subjects button { min-height: 50px; text-align: left; overflow-wrap: anywhere; }
+    .subject-course-group { display: grid; gap: 8px; padding: 13px; border: 1px solid var(--border); border-radius: 15px; background: rgba(var(--accent-rgb), 0.06); }
+    .subject-course-group h3 { margin: 0; font-size: 1rem; }
+    .subject-course-topics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 8px; }
+    .subject-course-topics button { min-height: 46px; text-align: left; overflow-wrap: anywhere; }
+    html[data-theme="night"] .open-subject-dialog,
+    html[data-theme="night"] .subject-dialog button { color: var(--text); }
+    html[data-theme="night"] .subject-dialog { background: #251e2d; }
 
     .subject-menu {
       position: relative;
@@ -1104,6 +1196,49 @@
       border-color: var(--border);
     }
 
+    html[data-theme="night"] .color-picker {
+      background: rgba(47, 37, 54, 0.84);
+      border-color: var(--border);
+    }
+    html[data-theme="night"] .language-picker select {
+      color: var(--text);
+      background: rgba(47, 37, 54, 0.84);
+      border-color: var(--border);
+    }
+
+    body {
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.08), rgba(var(--accent-rgb), 0.18) 30%, rgba(var(--accent-rgb), 0.1));
+    }
+
+    .header {
+      background: linear-gradient(135deg, rgba(var(--accent-rgb), 0.12), rgba(var(--accent-rgb), 0.2));
+    }
+
+    .primary,
+    .upload-label,
+    html[data-theme="night"] .primary,
+    html[data-theme="night"] .upload-label {
+      background: linear-gradient(135deg, var(--accent-light), var(--accent-color));
+      color: var(--accent-foreground);
+    }
+
+    .step-number,
+    .subject-button:hover,
+    .subject-menu:focus-within .subject-button,
+    .subject-menu.open .subject-button {
+      background-color: rgba(var(--accent-rgb), 0.22);
+    }
+
+    .cell.filled {
+      background: rgba(var(--accent-rgb), 0.16);
+      border-color: rgba(var(--accent-rgb), 0.38);
+    }
+
+    textarea:focus {
+      border-color: var(--accent-color);
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), 0.14);
+    }
+
     @keyframes app-enter {
       from { opacity: 0; transform: translateY(14px); }
       to { opacity: 1; transform: translateY(0); }
@@ -1199,8 +1334,8 @@
 
       .header { padding-top: 20px; padding-bottom: 16px; }
       .layout { padding-top: 16px; padding-bottom: 20px; }
-      .header-top { align-items: center; flex-wrap: nowrap; gap: 8px; }
-      .brand-nav { min-width: 0; gap: 8px; }
+      .header-top { align-items: center; flex-wrap: wrap; gap: 8px; }
+      .brand-nav { min-width: 0; flex: 1 1 140px; gap: 8px; }
       .site-nav { flex-wrap: wrap; gap: 6px; }
       .site-nav-link { min-height: 42px; padding: 8px 10px; font-size: 0.82rem; }
       .theme-toggle {
@@ -1211,13 +1346,16 @@
         padding: 8px;
         margin-left: auto;
       }
+      .appearance-controls { flex: 1 1 100%; justify-content: flex-end; gap: 6px; }
+      .language-picker { margin-right: auto; min-width: 0; }
+      .language-picker select { max-width: min(42vw, 170px); }
       #themeLabel { display: none; }
       h1, .subtitle { max-width: 100%; }
       h1 { font-size: clamp(2rem, 9vw, 3rem); overflow-wrap: anywhere; }
       .subtitle { font-size: 0.94rem; line-height: 1.5; }
       .subject-picker { margin-top: 18px; }
       .word-count-setting { max-width: none; }
-      .subject-button { min-height: 44px; padding: 9px 10px; font-size: 0.84rem; }
+      .open-subject-dialog { width: 100%; min-height: 48px; }
       .custom-material-button { width: 100%; min-height: 44px; }
       .steps { display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 16px; }
       .step-link { min-height: 44px; font-size: 0.86rem; }
@@ -1271,26 +1409,15 @@
         border-color: var(--border);
       }
       .crossword-controls button { flex: 1 1 100%; min-height: 44px; }
-      .subjects { gap: 7px; }
-      .subject-menu { position: static; }
-      .topic-panel {
-        position: static;
-        display: none;
-        width: 100%;
-        max-width: none;
-        margin-top: 6px;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-      }
-      .subject-menu.open .topic-panel,
-      .subject-menu:focus-within .topic-panel { display: grid; }
-      .subject-menu { flex: 1 1 45%; }
-      .subject-button { width: 100%; justify-content: center; }
       .material-dialog { width: calc(100% - 16px); max-height: 90vh; border-radius: 18px; }
       .material-dialog-content { padding: 17px; }
       .material-dialog .button-row button { width: 100%; min-height: 44px; }
       .material-dialog textarea { min-height: 170px; font-size: 16px; }
+      .subject-dialog { width: calc(100% - 16px); max-height: 88dvh; border-radius: 20px 20px 16px 16px; }
+      .subject-dialog-content { gap: 12px; padding: 16px; }
+      .subject-course-topics { grid-template-columns: 1fr; }
+      .subject-dialog-subjects { grid-template-columns: 1fr 1fr; }
+      .subject-dialog-subjects button { min-height: 58px; padding: 9px; font-size: 0.9rem; }
     }
 
     @media (max-width: 360px) {
@@ -1299,6 +1426,7 @@
       .panel { padding: 12px; }
       .site-nav-link { padding-right: 8px; padding-left: 8px; font-size: 0.78rem; }
       .eyebrow { padding-right: 9px; padding-left: 9px; font-size: 0.68rem; }
+      .subject-dialog-subjects { grid-template-columns: 1fr; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -1324,10 +1452,22 @@
             <a class="site-nav-link" href="tests.html">Тесты</a>
           </nav>
         </div>
-        <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Включить ночную тему">
-          <span id="themeIcon" aria-hidden="true">🌙</span>
-          <span id="themeLabel">Ночная тема</span>
-        </button>
+        <div class="appearance-controls">
+          <label class="language-picker">
+            <select id="languagePicker" aria-label="Выбрать язык сайта">
+              <option value="ru">Русский</option>
+              <option value="uz">O‘zbekcha</option>
+              <option value="en">English</option>
+            </select>
+          </label>
+          <label class="color-picker" title="Выбрать цвет сайта">
+            <input id="accentColor" type="color" value="#e78bbf" aria-label="Выбрать цвет сайта" />
+          </label>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Включить ночную тему">
+            <span id="themeIcon" aria-hidden="true">🌙</span>
+            <span id="themeLabel">Ночная тема</span>
+          </button>
+        </div>
       </div>
       <h1>Учись играя</h1>
       <p class="subtitle">
@@ -1345,8 +1485,8 @@
             </select>
           </div>
           <p class="word-count-help">Одно слово занимает один слот. Если материала недостаточно, кроссворд будет содержать меньше слов.</p>
-          <nav class="subjects" id="subjects" aria-label="Готовые предметы и темы"></nav>
-        <p class="topic-status" id="topicStatus" aria-live="polite">Наведи на предмет и выбери тему — кроссворд создастся сам.</p>
+          <button class="open-subject-dialog" id="openSubjectDialog" type="button">Выбрать предмет и курс</button>
+        <p class="topic-status" id="topicStatus" aria-live="polite">Выбери предмет, курс и тему — кроссворд создастся автоматически.</p>
         <button class="custom-material-button" id="openMaterialDialog" type="button">Или создай по своей лекции / файлу</button>
       </section>
       <nav class="steps" aria-label="Шаги создания кроссворда">
@@ -1410,6 +1550,20 @@
     </main>
   </div>
   <div class="page-transition" id="pageTransition" aria-hidden="true"></div>
+  <dialog class="subject-dialog" id="subjectDialog" aria-labelledby="subjectDialogTitle">
+    <div class="subject-dialog-content">
+      <div class="subject-dialog-heading">
+        <div>
+          <h2 id="subjectDialogTitle">Предметы и темы</h2>
+          <p id="subjectDialogHelp">Выберите предмет, затем курс и тему.</p>
+        </div>
+        <button class="subject-dialog-close" id="closeSubjectDialog" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <button class="subject-dialog-back" id="subjectDialogBack" type="button" hidden>← Все предметы</button>
+      <div class="subject-dialog-subjects" id="subjectDialogSubjects"></div>
+      <div id="subjectDialogTopics" hidden></div>
+    </div>
+  </dialog>
   <dialog class="material-dialog" id="materialDialog" aria-labelledby="materialDialogTitle">
     <div class="material-dialog-content">
       <div class="material-dialog-header">
@@ -1422,8 +1576,8 @@
       <div class="upload-box">
         <div>
           <label class="upload-label" for="fileInput">Выбрать файл лекции</label>
-          <input id="fileInput" type="file" accept=".txt,.md,.csv,.json" />
-          <span class="file-help" id="fileHelp">TXT, MD, CSV или JSON. PDF пока можно скопировать и вставить ниже.</span>
+          <input id="fileInput" type="file" accept=".txt,.md,.csv,.json,.xml,.html,.htm,.pdf,.docx,.xls,.xlsx,.pptx" />
+          <span class="file-help" id="fileHelp">TXT, MD, CSV, JSON, HTML/XML, PDF с текстовым слоем, DOCX, XLS/XLSX и PPTX. Максимум 25 МБ; файлы обрабатываются в браузере.</span>
         </div>
       </div>
       <label class="section-title" for="lectureInput">Или вставь текст сюда</label>
@@ -1436,6 +1590,11 @@
   </dialog>
   <aside class="wrong-feedback" id="wrongFeedback" hidden aria-live="polite" aria-label="Проверка ответов"></aside>
 
+  <script src="site-i18n.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
+  <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script>
     const STOP_WORDS = new Set([
       'это','как','так','для','что','все','они','она','он','после','перед','между','из','по','на','не','но','или','если','если','также','при','из-за','без','под','об','раз','где','когда','чем','кто','даже','можно','сейчас','через','ли','бы','его','ее','их','их','который','какой','когда','кроме','используется','использовать','является','являются','каждый','некоторые','среди','всех','только','более','менее','должен','должна','должно','при этом','однако','несколько','сначала','кратко','основной','основные'
@@ -1445,6 +1604,13 @@
     const generateBtn = document.getElementById('generateBtn');
     const sampleBtn = document.getElementById('sampleBtn');
     const fileInput = document.getElementById('fileInput');
+    const subjectDialog = document.getElementById('subjectDialog');
+    const subjectDialogSubjectsNode = document.getElementById('subjectDialogSubjects');
+    const subjectDialogTopicsNode = document.getElementById('subjectDialogTopics');
+    const subjectDialogTitleNode = document.getElementById('subjectDialogTitle');
+    const subjectDialogHelpNode = document.getElementById('subjectDialogHelp');
+    const subjectDialogBackButton = document.getElementById('subjectDialogBack');
+    const openSubjectDialogButton = document.getElementById('openSubjectDialog');
     const materialDialog = document.getElementById('materialDialog');
     const openMaterialDialogButton = document.getElementById('openMaterialDialog');
     const closeMaterialDialogButton = document.getElementById('closeMaterialDialog');
@@ -1464,13 +1630,142 @@
     const aiSummaryNode = document.getElementById('aiSummary');
     const fileHelpNode = document.getElementById('fileHelp');
     const wordCountNode = document.getElementById('wordCount');
+
+    const MAX_FILE_SIZE = 25 * 1024 * 1024;
+    const ALLOWED_TEXT_EXTENSIONS = new Set(['txt', 'md', 'csv', 'json', 'xml', 'html', 'htm', 'pdf', 'docx', 'xls', 'xlsx', 'pptx']);
+    const DANGEROUS_PATTERNS = [
+      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+      /<iframe\b[^>]*>.*?<\/iframe>/gi,
+      /<object\b[^>]*>.*?<\/object>/gi,
+      /<embed\b[^>]*>/gi,
+      /<link\b[^>]*>/gi,
+      /<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi,
+      /\bon[a-z]+\s*=/gi,
+      /javascript\s*:/gi,
+      /vbscript\s*:/gi,
+      /onload\s*=/gi,
+      /onerror\s*=/gi
+    ];
+
+    function sanitizeText(text) {
+      if (typeof text !== 'string') return '';
+      let cleaned = String(text);
+      DANGEROUS_PATTERNS.forEach(pattern => { cleaned = cleaned.replace(pattern, ''); });
+      cleaned = cleaned.replace(/<[^>]*>/g, '');
+      cleaned = cleaned.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '');
+      return cleaned.trim();
+    }
+
+    async function readUploadedText(file) {
+      const fileName = String(file.name || '').toLowerCase();
+      const extension = fileName.includes('.') ? fileName.split('.').pop() : '';
+      const textExtensions = new Set(['txt', 'md', 'csv', 'json', 'xml', 'html', 'htm']);
+      if (file.size > 25 * 1024 * 1024) {
+        throw new Error('Файл больше 25 МБ. Выбери файл поменьше или вставь нужный фрагмент текста.');
+      }
+      if (!textExtensions.has(extension) && !['pdf', 'docx', 'xls', 'xlsx', 'pptx'].includes(extension)) {
+        throw new Error('Этот формат не поддерживается. Выбери TXT, MD, CSV, JSON, HTML, XML, PDF, DOCX, XLS/XLSX или PPTX.');
+      }
+      const arrayBuffer = await file.arrayBuffer();
+
+      try {
+        let text;
+        if (extension === 'pdf') {
+          if (typeof window.pdfjsLib === 'undefined') {
+            throw new Error('Не удалось загрузить модуль для PDF. Проверь подключение к интернету и попробуй ещё раз.');
+          }
+          const pdfLib = window.pdfjsLib;
+          pdfLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+          const pdf = await pdfLib.getDocument({ data: new Uint8Array(arrayBuffer) }).promise;
+          const pages = [];
+          for (let pageIndex = 1; pageIndex <= pdf.numPages; pageIndex += 1) {
+            const page = await pdf.getPage(pageIndex);
+            const content = await page.getTextContent();
+            pages.push(content.items.map(item => ('str' in item ? item.str : '')).join(' '));
+          }
+          text = pages.join('\n\n');
+          if (!text.trim()) {
+            throw new Error('В PDF не найден текст. Возможно, это скан: распознай его (OCR) или вставь текст вручную.');
+          }
+        } else if (extension === 'docx') {
+          if (typeof window.mammoth === 'undefined') {
+            throw new Error('Не удалось загрузить модуль для DOCX. Проверь подключение к интернету и попробуй ещё раз.');
+          }
+          const result = await window.mammoth.extractRawText({ arrayBuffer });
+          text = result.value || '';
+        } else if (extension === 'xlsx' || extension === 'xls') {
+          if (typeof window.XLSX === 'undefined') {
+            throw new Error('Не удалось загрузить модуль для таблиц Excel. Проверь подключение к интернету и попробуй ещё раз.');
+          }
+          const workbook = window.XLSX.read(arrayBuffer, { type: 'array' });
+          text = workbook.SheetNames.map(sheetName => {
+            const sheet = workbook.Sheets[sheetName];
+            return window.XLSX.utils.sheet_to_csv(sheet).trim();
+          }).filter(Boolean).join('\n\n');
+        } else if (extension === 'pptx') {
+          if (typeof window.JSZip === 'undefined') {
+            throw new Error('Не удалось загрузить модуль для презентаций. Проверь подключение к интернету и попробуй ещё раз.');
+          }
+          const zip = await window.JSZip.loadAsync(arrayBuffer);
+          const slideFiles = Object.keys(zip.files)
+            .filter(filePath => /(^|\/)ppt\/slides\/slide\d+\.xml$/i.test(filePath))
+            .sort((left, right) => Number(left.match(/slide(\d+)\.xml$/i)[1]) - Number(right.match(/slide(\d+)\.xml$/i)[1]));
+          const slides = [];
+          for (const filePath of slideFiles) {
+            const xml = await zip.file(filePath)?.async('text');
+            if (!xml) continue;
+            const xmlDocument = new DOMParser().parseFromString(xml, 'application/xml');
+            if (xmlDocument.querySelector('parsererror')) throw new Error('Не удалось прочитать содержимое презентации PPTX.');
+            const slideText = Array.from(xmlDocument.getElementsByTagName('a:t')).map(node => node.textContent || '').join(' ');
+            if (slideText.trim()) slides.push(slideText.trim());
+          }
+          text = slides.join('\n\n');
+        } else if (extension === 'json') {
+          let parsed;
+          try {
+            parsed = JSON.parse(await file.text());
+          } catch {
+            throw new Error('Файл JSON повреждён или содержит ошибку формата.');
+          }
+          const values = [];
+          const collectText = value => {
+            if (typeof value === 'string' || typeof value === 'number') {
+              values.push(String(value));
+            } else if (Array.isArray(value)) {
+              value.forEach(collectText);
+            } else if (value && typeof value === 'object') {
+              Object.values(value).forEach(collectText);
+            }
+          };
+          collectText(parsed);
+          text = values.join('\n');
+        } else if (extension === 'html' || extension === 'htm' || extension === 'xml') {
+          const source = await file.text();
+          const documentNode = new DOMParser().parseFromString(source, extension === 'html' || extension === 'htm' ? 'text/html' : 'application/xml');
+          if (documentNode.querySelector('parsererror')) throw new Error('Не удалось разобрать HTML/XML файл.');
+          documentNode.querySelectorAll('script, style, noscript').forEach(node => node.remove());
+          text = documentNode.body?.textContent || documentNode.documentElement?.textContent || '';
+        } else {
+          text = await file.text();
+        }
+
+        if (!text.trim()) throw new Error('В файле не найден текст для создания кроссворда.');
+        return sanitizeText(text);
+      } catch (error) {
+        console.error('Не удалось прочитать файл:', error);
+        throw error;
+      }
+    }
+
     let crosswordSolution = [];
     let activePlacements = [];
     let activeCluesByWord = new Map();
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const themeLabel = document.getElementById('themeLabel');
+    const accentColorPicker = document.getElementById('accentColor');
     const THEME_STORAGE_KEY = 'lecture-crossword-theme';
+    const ACCENT_STORAGE_KEY = 'study-bloom-accent-color';
     const subjectsNode = document.getElementById('subjects');
     const topicStatusNode = document.getElementById('topicStatus');
 
@@ -1515,6 +1810,56 @@
       } catch (error) {
         console.error('Не удалось сохранить выбранную тему:', error);
       }
+    });
+
+    function applyAccentColor(color) {
+      if (!/^#[0-9a-f]{6}$/i.test(color)) return;
+      const channels = color.slice(1).match(/.{2}/g).map(channel => parseInt(channel, 16));
+      const [red, green, blue] = channels;
+      const luminance = (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255;
+      const mixWithWhite = channel => Math.round(channel + (255 - channel) * 0.28);
+      const mixWithBlack = channel => Math.round(channel * 0.84);
+      const toHex = value => value.toString(16).padStart(2, '0');
+      const lightColor = `#${channels.map(mixWithWhite).map(toHex).join('')}`;
+      const darkColor = `#${channels.map(mixWithBlack).map(toHex).join('')}`;
+      const rootStyle = document.documentElement.style;
+
+      rootStyle.setProperty('--accent-color', color);
+      rootStyle.setProperty('--accent-rgb', channels.join(', '));
+      rootStyle.setProperty('--accent-light', lightColor);
+      rootStyle.setProperty('--accent-dark', darkColor);
+      rootStyle.setProperty('--accent-foreground', luminance > 0.58 ? '#3d2632' : '#ffffff');
+      rootStyle.setProperty('--primary', lightColor);
+      rootStyle.setProperty('--primary-2', color);
+      rootStyle.setProperty('--accent', `rgba(${channels.join(', ')}, 0.18)`);
+    }
+
+    try {
+      const savedAccentColor = localStorage.getItem(ACCENT_STORAGE_KEY);
+      if (savedAccentColor && /^#[0-9a-f]{6}$/i.test(savedAccentColor)) {
+        accentColorPicker.value = savedAccentColor;
+      }
+    } catch (error) {
+      console.error('Не удалось прочитать сохранённый цвет сайта:', error);
+    }
+    applyAccentColor(accentColorPicker.value);
+
+    accentColorPicker.addEventListener('input', () => {
+      applyAccentColor(accentColorPicker.value);
+    });
+    accentColorPicker.addEventListener('change', () => {
+      try {
+        localStorage.setItem(ACCENT_STORAGE_KEY, accentColorPicker.value);
+      } catch (error) {
+        console.error('Не удалось сохранить цвет сайта:', error);
+        topicStatusNode.textContent = 'Цвет изменён, но сохранить его для следующего посещения не удалось.';
+      }
+    });
+
+    window.addEventListener('storage', event => {
+      if (event.key !== ACCENT_STORAGE_KEY || !event.newValue || !/^#[0-9a-f]{6}$/i.test(event.newValue)) return;
+      accentColorPicker.value = event.newValue;
+      applyAccentColor(event.newValue);
     });
 
     const subjectCatalog = [
@@ -1637,74 +1982,622 @@
             ]
           }
         ]
+      },
+      {
+        name: 'Математика',
+        icon: '➗',
+        topics: [
+          {
+            name: 'Уравнения и функции',
+            text: 'Уравнение содержит переменную, значение которой находят решением. Корень уравнения превращает равенство в верное. Коэффициент умножается на переменную. Функция связывает аргумент и значение. График функции показывает эту зависимость на координатной плоскости.',
+            words: [
+              { word: 'УРАВНЕНИЕ', clue: 'Равенство с неизвестным, значение которого требуется найти.' },
+              { word: 'ПЕРЕМЕННАЯ', clue: 'Буква, обозначающая величину, значение которой может изменяться.' },
+              { word: 'КОЭФФИЦИЕНТ', clue: 'Числовой множитель при переменной.' },
+              { word: 'КОРЕНЬ', clue: 'Значение неизвестного, при котором уравнение становится верным.' },
+              { word: 'ФУНКЦИЯ', clue: 'Зависимость одной величины от другой.' },
+              { word: 'ГРАФИК', clue: 'Изображение зависимости величин на координатной плоскости.' }
+            ]
+          },
+          {
+            name: 'Геометрические фигуры',
+            text: 'Треугольник имеет три стороны и три угла. В прямоугольном треугольнике гипотенуза лежит напротив прямого угла. Периметр равен сумме длин всех сторон. Площадь измеряет размер поверхности. Радиус соединяет центр окружности с любой её точкой.',
+            words: [
+              { word: 'ТРЕУГОЛЬНИК', clue: 'Многоугольник с тремя сторонами.' },
+              { word: 'ГИПОТЕНУЗА', clue: 'Сторона прямоугольного треугольника напротив прямого угла.' },
+              { word: 'ПЕРИМЕТР', clue: 'Сумма длин всех сторон фигуры.' },
+              { word: 'ПЛОЩАДЬ', clue: 'Мера размера части плоскости, занимаемой фигурой.' },
+              { word: 'ОКРУЖНОСТЬ', clue: 'Линия, все точки которой равноудалены от центра.' },
+              { word: 'РАДИУС', clue: 'Отрезок от центра окружности до точки на ней.' }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Физика',
+        icon: '⚛️',
+        topics: [
+          {
+            name: 'Механика и движение',
+            text: 'Механика изучает движение тел и их взаимодействие. Скорость показывает пройденный путь за единицу времени. Ускорение описывает изменение скорости. Инерция — свойство тела сохранять состояние движения. Траектория — линия движения тела. Энергия характеризует способность совершать работу.',
+            words: [
+              { word: 'МЕХАНИКА', clue: 'Раздел физики о движении тел и их взаимодействии.' },
+              { word: 'СКОРОСТЬ', clue: 'Физическая величина, показывающая путь за единицу времени.' },
+              { word: 'УСКОРЕНИЕ', clue: 'Величина, характеризующая изменение скорости со временем.' },
+              { word: 'ИНЕРЦИЯ', clue: 'Свойство тела сохранять покой или равномерное прямолинейное движение.' },
+              { word: 'ТРАЕКТОРИЯ', clue: 'Линия, по которой движется тело.' },
+              { word: 'ЭНЕРГИЯ', clue: 'Физическая величина, связанная со способностью совершать работу.' }
+            ]
+          },
+          {
+            name: 'Электрический ток',
+            text: 'Электрический ток — упорядоченное движение заряженных частиц. В металлическом проводнике ток переносят электроны. Напряжение измеряют в вольтах, силу тока — в амперах. Резистор ограничивает ток в электрической цепи. Электрический заряд измеряется в кулонах.',
+            words: [
+              { word: 'ЭЛЕКТРОН', clue: 'Отрицательно заряженная частица, переносящая ток в металле.' },
+              { word: 'НАПРЯЖЕНИЕ', clue: 'Физическая величина, измеряемая в вольтах.' },
+              { word: 'ВОЛЬТ', clue: 'Единица измерения электрического напряжения.' },
+              { word: 'АМПЕР', clue: 'Единица измерения силы электрического тока.' },
+              { word: 'РЕЗИСТОР', clue: 'Элемент электрической цепи, создающий сопротивление току.' },
+              { word: 'ЗАРЯД', clue: 'Физическая величина, характеризующая электромагнитное взаимодействие частиц.' }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Химия',
+        icon: '🧪',
+        topics: [
+          {
+            name: 'Строение атома',
+            text: 'Атом состоит из ядра и электронной оболочки. Ядро содержит протоны и нейтроны. Электроны имеют отрицательный заряд. Число протонов определяет заряд ядра и атомный номер элемента. Атомы одного элемента с разным числом нейтронов называют изотопами.',
+            words: [
+              { word: 'АТОМ', clue: 'Наименьшая электрически нейтральная частица химического элемента.' },
+              { word: 'ЯДРО', clue: 'Плотная центральная часть атома, состоящая из протонов и нейтронов.' },
+              { word: 'ПРОТОН', clue: 'Положительно заряженная частица в атомном ядре.' },
+              { word: 'НЕЙТРОН', clue: 'Электрически нейтральная частица атомного ядра.' },
+              { word: 'ЭЛЕКТРОН', clue: 'Отрицательно заряженная частица электронной оболочки атома.' },
+              { word: 'ИЗОТОП', clue: 'Разновидность атома элемента с другим числом нейтронов.' }
+            ]
+          },
+          {
+            name: 'Химические реакции',
+            text: 'Химическая реакция превращает исходные вещества в новые вещества. Исходные вещества называются реагентами, а образовавшиеся — продуктами. Катализатор ускоряет реакцию и сам не расходуется. Кислоты и основания относятся к важным классам соединений.',
+            words: [
+              { word: 'РЕАКЦИЯ', clue: 'Процесс превращения одних веществ в другие.' },
+              { word: 'РЕАГЕНТ', clue: 'Исходное вещество, участвующее в химическом превращении.' },
+              { word: 'ПРОДУКТ', clue: 'Вещество, образующееся в результате химической реакции.' },
+              { word: 'КАТАЛИЗАТОР', clue: 'Вещество, изменяющее скорость реакции и не расходующееся в ней.' },
+              { word: 'КИСЛОТА', clue: 'Класс веществ, к которым в водном растворе относят, например, соляную кислоту.' },
+              { word: 'ОСНОВАНИЕ', clue: 'Класс соединений, к которому относится гидроксид натрия.' }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'География',
+        icon: '🌐',
+        topics: [
+          {
+            name: 'Материки и океаны',
+            text: 'Материк — крупный участок суши, со всех сторон окружённый океанами. Тихий океан является крупнейшим по площади. Остров со всех сторон окружён водой. Равнина — обширная территория с небольшими перепадами высот. Реки переносят воду по поверхности суши.',
+            words: [
+              { word: 'МАТЕРИК', clue: 'Крупный участок суши, окружённый океанами и морями.' },
+              { word: 'ОКЕАН', clue: 'Крупнейший непрерывный водный простор Земли.' },
+              { word: 'РАВНИНА', clue: 'Обширный участок суши с небольшими колебаниями высот.' },
+              { word: 'ОСТРОВ', clue: 'Участок суши, со всех сторон окружённый водой.' },
+              { word: 'РЕКА', clue: 'Естественный водный поток, текущий по руслу.' },
+              { word: 'ГОРЫ', clue: 'Значительно возвышающиеся участки земной поверхности.' }
+            ]
+          },
+          {
+            name: 'Атмосфера и климат',
+            text: 'Атмосфера — газовая оболочка Земли. Климат описывает многолетний режим погоды местности. Осадки выпадают из облаков в виде дождя, снега или града. Экватор делит Землю на Северное и Южное полушария. Ветер возникает из-за перемещения воздуха.',
+            words: [
+              { word: 'АТМОСФЕРА', clue: 'Газовая оболочка, окружающая Землю.' },
+              { word: 'КЛИМАТ', clue: 'Многолетний характер погоды в определённой местности.' },
+              { word: 'ОСАДКИ', clue: 'Вода, выпадающая из атмосферы на поверхность Земли.' },
+              { word: 'ЭКВАТОР', clue: 'Воображаемая линия, делящая Землю на два полушария.' },
+              { word: 'ВЕТЕР', clue: 'Горизонтальное движение воздуха относительно земной поверхности.' },
+              { word: 'ЦИКЛОН', clue: 'Область пониженного атмосферного давления с движением воздуха к центру.' }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Информатика',
+        icon: '💻',
+        topics: [
+          {
+            name: 'Алгоритмы и программирование',
+            text: 'Алгоритм — точная последовательность команд для решения задачи. Условие позволяет выбрать действие в зависимости от результата проверки. Цикл повторяет команды. Переменная хранит значение, которое может меняться. Данные обрабатываются по заданным инструкциям.',
+            words: [
+              { word: 'АЛГОРИТМ', clue: 'Конечная последовательность точных команд для решения задачи.' },
+              { word: 'КОМАНДА', clue: 'Инструкция, предписывающая компьютеру или исполнителю действие.' },
+              { word: 'УСЛОВИЕ', clue: 'Проверка, от результата которой зависит выбор дальнейших действий.' },
+              { word: 'ЦИКЛ', clue: 'Конструкция алгоритма, повторяющая последовательность команд.' },
+              { word: 'ПЕРЕМЕННАЯ', clue: 'Именованное место для хранения значения, которое может изменяться.' },
+              { word: 'ДАННЫЕ', clue: 'Информация, представленная в форме, пригодной для обработки.' }
+            ]
+          },
+          {
+            name: 'Информация и кодирование',
+            text: 'Информация может быть представлена с помощью двоичного кода. Один байт состоит из восьми битов. Кодировка задаёт соответствие между символами и их числовыми представлениями. Компьютер хранит данные в памяти и выполняет операции над ними.',
+            words: [
+              { word: 'ДВОИЧНЫЙ', clue: 'Код, использующий только цифры 0 и 1.' },
+              { word: 'БАЙТ', clue: 'Единица объёма данных, обычно равная восьми битам.' },
+              { word: 'КОДИРОВКА', clue: 'Правило представления символов числами или кодовыми последовательностями.' },
+              { word: 'СИМВОЛ', clue: 'Знак, используемый для представления текста.' },
+              { word: 'ПАМЯТЬ', clue: 'Устройство или область компьютера для хранения данных.' },
+              { word: 'ИНФОРМАЦИЯ', clue: 'Сведения об объектах, явлениях и процессах.' }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Литература',
+        icon: '📚',
+        topics: [
+          {
+            name: 'Литературные жанры',
+            text: 'Роман — крупное повествовательное произведение со сложным сюжетом. Повесть обычно меньше романа и сосредоточена на нескольких событиях. Поэма — стихотворное повествовательное произведение. Рифма созвучно завершает стихотворные строки. Метафора переносит название по сходству.',
+            words: [
+              { word: 'РОМАН', clue: 'Крупное повествовательное произведение со сложным сюжетом.' },
+              { word: 'ПОВЕСТЬ', clue: 'Повествовательное произведение среднего объёма между рассказом и романом.' },
+              { word: 'ПОЭМА', clue: 'Стихотворное повествовательное произведение.' },
+              { word: 'СЮЖЕТ', clue: 'Последовательность событий в литературном произведении.' },
+              { word: 'РИФМА', clue: 'Созвучие окончаний стихотворных строк.' },
+              { word: 'МЕТАФОРА', clue: 'Переносное употребление слова по сходству или аналогии.' }
+            ]
+          },
+          {
+            name: 'Классика русской литературы',
+            text: 'Александр Пушкин написал роман в стихах «Евгений Онегин». В комедии Грибоедова «Горе от ума» высмеивается московское общество. Гоголь создал комедию «Ревизор». Лев Толстой написал роман «Война и мир». Антон Чехов известен своими пьесами и рассказами.',
+            words: [
+              { word: 'ПУШКИН', clue: 'Автор романа в стихах «Евгений Онегин».' },
+              { word: 'ОНЕГИН', clue: 'Имя героя романа в стихах Александра Пушкина.' },
+              { word: 'ГРИБОЕДОВ', clue: 'Автор комедии «Горе от ума».' },
+              { word: 'ГОГОЛЬ', clue: 'Автор комедии «Ревизор».' },
+              { word: 'ТОЛСТОЙ', clue: 'Автор романа «Война и мир».' },
+              { word: 'ЧЕХОВ', clue: 'Русский писатель и драматург, автор пьесы «Вишнёвый сад».' }
+            ]
+          }
+        ]
+      },
+      {
+        name: 'Русский язык',
+        icon: '🔤',
+        topics: [
+          {
+            name: 'Части речи',
+            text: 'Глагол обозначает действие или состояние. Наречие обычно относится к глаголу и обозначает признак действия. Причастие сочетает признаки глагола и прилагательного. Предлог служит для связи слов. Местоимение указывает на предмет, признак или количество, не называя их.',
+            words: [
+              { word: 'ГЛАГОЛ', clue: 'Часть речи, обозначающая действие или состояние.' },
+              { word: 'НАРЕЧИЕ', clue: 'Часть речи, обычно обозначающая признак действия.' },
+              { word: 'ПРИЧАСТИЕ', clue: 'Форма глагола, сочетающая его признаки с признаками прилагательного.' },
+              { word: 'ПРЕДЛОГ', clue: 'Служебная часть речи для связи слов в словосочетании.' },
+              { word: 'МЕСТОИМЕНИЕ', clue: 'Часть речи, указывающая на предметы или признаки, но не называющая их.' },
+              { word: 'ЧАСТИЦА', clue: 'Служебная часть речи, придающая словам и предложениям дополнительные оттенки значения.' }
+            ]
+          },
+          {
+            name: 'Члены предложения',
+            text: 'Подлежащее обычно называет предмет речи. Сказуемое сообщает, что говорится о подлежащем. Дополнение обозначает предмет, на который направлено действие. Определение обозначает признак предмета. Предложение выражает законченную мысль. Запятая разделяет части сложного предложения и однородные члены.',
+            words: [
+              { word: 'ПОДЛЕЖАЩЕЕ', clue: 'Главный член предложения, называющий предмет речи.' },
+              { word: 'СКАЗУЕМОЕ', clue: 'Главный член предложения, сообщающий, что говорится о подлежащем.' },
+              { word: 'ДОПОЛНЕНИЕ', clue: 'Второстепенный член предложения, обозначающий объект действия.' },
+              { word: 'ОПРЕДЕЛЕНИЕ', clue: 'Второстепенный член предложения, обозначающий признак предмета.' },
+              { word: 'ПРЕДЛОЖЕНИЕ', clue: 'Слово или группа слов, выражающая законченную мысль.' },
+              { word: 'ЗАПЯТАЯ', clue: 'Знак препинания, отделяющий однородные члены и части сложного предложения.' }
+            ]
+          }
+        ]
       }
     ];
 
+    const additionalCourseTopics = {
+      'Философия': [
+        [3, 'Средневековая философия', [
+          ['СХОЛАСТИКА', 'Метод философского рассуждения, согласовывающий веру и рациональное доказательство.'],
+          ['АВГУСТИН', 'Философ и богослов, автор «Исповеди» и учения о времени.'],
+          ['ФОМААКВИНСКИЙ', 'Мыслитель, систематизировавший схоластическую философию и теологию.'],
+          ['УНИВЕРСАЛИЯ', 'Общее понятие, существование которого обсуждали средневековые реалисты и номиналисты.'],
+          ['НОМИНАЛИЗМ', 'Позиция, рассматривающая общие понятия как имена, а не самостоятельные сущности.']
+        ]],
+        [4, 'Критическая философия и немецкий идеализм', [
+          ['АПРИОРИ', 'Знание или форма познания, не зависящие от конкретного опыта.'],
+          ['ИМПЕРАТИВ', 'Безусловное нравственное требование в этике Канта.'],
+          ['ДИАЛЕКТИКА', 'Метод анализа развития через противоречия и их преодоление.'],
+          ['ФЕНОМЕН', 'Предмет, каким он дан сознанию в философии Канта.'],
+          ['СУБЪЕКТ', 'Познавательное и деятельное начало, противопоставляемое объекту.']
+        ]]
+      ],
+      'История Узбекистана': [
+        [3, 'Ханства и государственность Центральной Азии', [
+          ['КОКАНД', 'Город, ставший политическим центром одноимённого ханства.'],
+          ['БУХАРА', 'Город, бывший столицей эмирата и крупным центром исламской учёности.'],
+          ['ХИВА', 'Город-крепость, исторический центр Хивинского ханства.'],
+          ['МАНГЫТЫ', 'Династия, правившая Бухарским эмиратом в XVIII—XX веках.'],
+          ['КУНГРАТЫ', 'Династия, правившая Хивинским ханством в XVIII—XX веках.']
+        ]],
+        [4, 'Наука и культура Средней Азии', [
+          ['УЛУГБЕК', 'Учёный-правитель, создавший обсерваторию и звёздный каталог в Самарканде.'],
+          ['НАВОИ', 'Поэт и мыслитель, развивший литературу на чагатайском языке.'],
+          ['БИРУНИ', 'Учёный-энциклопедист, исследовавший астрономию, математику и географию.'],
+          ['АВИЦЕННА', 'Врач и философ, автор «Канона врачебной науки».'],
+          ['АЛХОРЕЗМИ', 'Математик, чьё имя связано с происхождением термина «алгоритм».']
+        ]]
+      ],
+      'Всемирная история': [
+        [3, 'Возрождение и Реформация', [
+          ['ГУМАНИЗМ', 'Интеллектуальное движение Возрождения, ставившее в центр человека и его достоинство.'],
+          ['РЕФОРМАЦИЯ', 'Движение XVI века, приведшее к преобразованию западного христианства.'],
+          ['КОПЕРНИК', 'Астроном, обосновавший гелиоцентрическую модель мира.'],
+          ['ГАЛИЛЕЙ', 'Учёный, развивавший экспериментальный метод и телескопические наблюдения.'],
+          ['ПЕЧАТАНИЕ', 'Технология, ускорившая распространение книг и новых идей в Европе.']
+        ]],
+        [4, 'Революции и формирование современного мира', [
+          ['ИНДУСТРИЯ', 'Производство, основанное на механизированном труде и фабриках.'],
+          ['БУРЖУАЗИЯ', 'Общественный класс, усиливший влияние в эпоху буржуазных революций.'],
+          ['КОНСТИТУЦИЯ', 'Основной закон, определяющий устройство государства и права граждан.'],
+          ['ИНДУСТРИАЛИЗАЦИЯ', 'Переход экономики к машинному производству и крупной промышленности.'],
+          ['ДЕКОЛОНИЗАЦИЯ', 'Процесс обретения колониями политической независимости.']
+        ]]
+      ],
+      'Биология': [
+        [3, 'Генетика и молекулярная биология', [
+          ['РЕПЛИКАЦИЯ', 'Удвоение молекулы ДНК перед делением клетки.'],
+          ['ТРАНСКРИПЦИЯ', 'Синтез РНК на матрице ДНК.'],
+          ['ТРАНСЛЯЦИЯ', 'Синтез белка на рибосоме по последовательности иРНК.'],
+          ['АЛЛЕЛЬ', 'Одна из альтернативных форм одного и того же гена.'],
+          ['МУТАЦИЯ', 'Устойчивое изменение генетического материала организма.']
+        ]],
+        [4, 'Экология и эволюционная биология', [
+          ['ПОПУЛЯЦИЯ', 'Группа особей одного вида, населяющих общую территорию и скрещивающихся между собой.'],
+          ['БИОЦЕНОЗ', 'Сообщество популяций разных видов, совместно обитающих в среде.'],
+          ['ЭКОСИСТЕМА', 'Единство сообщества организмов и абиотической среды.'],
+          ['АДАПТАЦИЯ', 'Приспособление организмов к условиям среды в ходе эволюции.'],
+          ['ЕСТЕСТВЕННЫЙОТБОР', 'Механизм эволюции, при котором наследуемые признаки влияют на выживание и размножение.']
+        ]]
+      ],
+      'Математика': [
+        [3, 'Пределы и дифференциальное исчисление', [
+          ['ПРОИЗВОДНАЯ', 'Предел отношения приращения функции к приращению аргумента.'],
+          ['ИНТЕГРАЛ', 'Предел интегральных сумм; операция, обратная дифференцированию.'],
+          ['НЕПРЕРЫВНОСТЬ', 'Свойство функции, при котором малым изменениям аргумента соответствуют малые изменения значения.'],
+          ['ЭКСТРЕМУМ', 'Локальное наибольшее или наименьшее значение функции.'],
+          ['ДИФФЕРЕНЦИАЛ', 'Линейная главная часть приращения дифференцируемой функции.']
+        ]],
+        [4, 'Теория вероятностей и статистика', [
+          ['ВЕРОЯТНОСТЬ', 'Числовая мера возможности случайного события.'],
+          ['ДИСПЕРСИЯ', 'Мера разброса случайной величины относительно её математического ожидания.'],
+          ['МЕДИАНА', 'Значение, разделяющее упорядоченную выборку на две равные части.'],
+          ['ГИПОТЕЗА', 'Проверяемое предположение о распределении или параметрах данных.'],
+          ['КОРРЕЛЯЦИЯ', 'Статистическая взаимосвязь между случайными величинами.']
+        ]]
+      ],
+      'Физика': [
+        [3, 'Классическая механика', [
+          ['ИМПУЛЬС', 'Векторная величина, равная произведению массы тела на его скорость.'],
+          ['ИНЕРЦИЯ', 'Свойство тела сохранять состояние покоя или равномерного движения.'],
+          ['УСКОРЕНИЕ', 'Изменение скорости за единицу времени.'],
+          ['КИНЕТИКА', 'Раздел механики, изучающий движение с учётом действующих сил.'],
+          ['ЭНЕРГИЯ', 'Скалярная физическая величина, характеризующая способность системы совершать работу.']
+        ]],
+        [4, 'Электродинамика и колебания', [
+          ['ИНДУКЦИЯ', 'Возникновение электродвижущей силы при изменении магнитного потока.'],
+          ['ИМПЕДАНС', 'Полное сопротивление цепи переменному току.'],
+          ['РЕЗОНАНС', 'Резкое увеличение амплитуды вынужденных колебаний при совпадении частот.'],
+          ['КОНДЕНСАТОР', 'Элемент цепи, накапливающий электрический заряд и энергию поля.'],
+          ['ЧАСТОТА', 'Количество полных колебаний за единицу времени.']
+        ]]
+      ],
+      'Химия': [
+        [3, 'Химическая кинетика и равновесие', [
+          ['КАТАЛИЗАТОР', 'Вещество, изменяющее скорость реакции и восстанавливающееся в её ходе.'],
+          ['РАВНОВЕСИЕ', 'Состояние обратимой реакции, при котором скорости прямого и обратного процессов равны.'],
+          ['КИНЕТИКА', 'Раздел химии, изучающий скорости и механизмы реакций.'],
+          ['ЭНТАЛЬПИЯ', 'Термодинамическая функция, изменение которой при постоянном давлении связано с тепловым эффектом.'],
+          ['АКТИВАЦИЯ', 'Переход реагирующих частиц в состояние с энергией, достаточной для реакции.']
+        ]],
+        [4, 'Органическая химия и механизмы реакций', [
+          ['ИЗОМЕРИЯ', 'Существование соединений с одинаковой формулой, но разным строением или расположением атомов.'],
+          ['ПОЛИМЕР', 'Высокомолекулярное соединение из повторяющихся структурных звеньев.'],
+          ['АЛЬДЕГИД', 'Органическое соединение, содержащее карбонильную группу на конце цепи.'],
+          ['ЭСТЕРИФИКАЦИЯ', 'Реакция образования сложного эфира из кислоты и спирта.'],
+          ['НУКЛЕОФИЛ', 'Частица, предоставляющая электронную пару для образования химической связи.']
+        ]]
+      ],
+      'География': [
+        [3, 'Климатология и географическая оболочка', [
+          ['ЦИРКУЛЯЦИЯ', 'Система крупномасштабных перемещений воздушных масс в атмосфере.'],
+          ['АНТИЦИКЛОН', 'Область повышенного атмосферного давления с нисходящими потоками воздуха.'],
+          ['МУССОН', 'Сезонный ветер, меняющий направление между летом и зимой.'],
+          ['ИЗОТЕРМА', 'Линия на карте, соединяющая точки с одинаковой температурой.'],
+          ['БИОСФЕРА', 'Оболочка Земли, заселённая живыми организмами и преобразуемая ими.']
+        ]],
+        [4, 'Население и экономическая география', [
+          ['УРБАНИЗАЦИЯ', 'Рост городов и увеличение доли городского населения.'],
+          ['АГЛОМЕРАЦИЯ', 'Группа близко расположенных населённых пунктов с тесными связями.'],
+          ['МИГРАЦИЯ', 'Перемещение населения между территориями с изменением места жительства.'],
+          ['СПЕЦИАЛИЗАЦИЯ', 'Сосредоточение территории на выпуске определённых товаров или услуг.'],
+          ['ИНФРАСТРУКТУРА', 'Системы и объекты, обеспечивающие работу экономики и повседневную жизнь.']
+        ]]
+      ],
+      'Информатика': [
+        [3, 'Структуры данных и алгоритмический анализ', [
+          ['РЕКУРСИЯ', 'Определение или алгоритм, содержащий обращение к самому себе.'],
+          ['ХЕШИРОВАНИЕ', 'Преобразование ключа в индекс структуры данных с помощью хеш-функции.'],
+          ['СЛОЖНОСТЬ', 'Оценка роста ресурсов алгоритма при увеличении размера входных данных.'],
+          ['ИНВАРИАНТ', 'Условие, сохраняющее истинность на каждом шаге алгоритма.'],
+          ['ГРАФ', 'Структура данных из вершин и соединяющих их рёбер.']
+        ]],
+        [4, 'Базы данных и компьютерные сети', [
+          ['НОРМАЛИЗАЦИЯ', 'Организация таблиц базы данных для уменьшения избыточности и аномалий.'],
+          ['ТРАНЗАКЦИЯ', 'Последовательность операций с базой данных, выполняемая как единое целое.'],
+          ['ПРОТОКОЛ', 'Набор правил обмена данными между сетевыми устройствами.'],
+          ['ШИФРОВАНИЕ', 'Преобразование данных для ограничения доступа без ключа.'],
+          ['КЛИЕНТСЕРВЕР', 'Архитектура, в которой клиент запрашивает услуги у сервера.']
+        ]]
+      ],
+      'Литература': [
+        [3, 'Литературные направления и поэтика', [
+          ['СИМВОЛИЗМ', 'Направление, передающее идеи и состояния через многозначные символы.'],
+          ['АКМЕИЗМ', 'Поэтическое направление, провозглашавшее ясность образа и точность слова.'],
+          ['ФУТУРИЗМ', 'Авангардное направление, стремившееся обновить язык и формы искусства.'],
+          ['АЛЛЕГОРИЯ', 'Иносказательное изображение отвлечённой идеи через конкретный образ.'],
+          ['КОМПОЗИЦИЯ', 'Организация частей и элементов художественного произведения.']
+        ]],
+        [4, 'Анализ художественного текста', [
+          ['НАРРАТОР', 'Голос или инстанция, от лица которой ведётся повествование.'],
+          ['ХРОНОТОП', 'Единство временных и пространственных отношений в произведении.'],
+          ['ПОДТЕКСТ', 'Скрытый смысл, не выраженный напрямую в словах персонажей или автора.'],
+          ['ИНТЕРТЕКСТ', 'Связи произведения с другими текстами через цитаты, аллюзии и мотивы.'],
+          ['ПЕРСПЕКТИВА', 'Позиция, из которой читателю представлены события и персонажи.']
+        ]]
+      ],
+      'Русский язык': [
+        [3, 'Синтаксис сложного предложения', [
+          ['ПРЕДИКАТИВНОСТЬ', 'Грамматическая категория, соотносящая содержание высказывания с действительностью.'],
+          ['ПАРАТАКСИС', 'Сочинительная связь равноправных частей сложной конструкции.'],
+          ['ГИПОТАКСИС', 'Подчинительная связь главной и зависимой частей предложения.'],
+          ['ПАРЦЕЛЛЯЦИЯ', 'Разделение единой синтаксической конструкции на интонационно самостоятельные фрагменты.'],
+          ['ИНВЕРСИЯ', 'Нарушение обычного порядка слов для смыслового или стилистического выделения.']
+        ]],
+        [4, 'Морфемика, словообразование и нормы', [
+          ['МОРФЕМА', 'Минимальная значимая часть слова.'],
+          ['АФФИКС', 'Служебная морфема, изменяющая значение или грамматическую форму слова.'],
+          ['ДЕРИВАЦИЯ', 'Образование нового слова на основе уже существующей языковой единицы.'],
+          ['ОРФОЭПИЯ', 'Раздел языкознания, изучающий нормы литературного произношения.'],
+          ['ЛЕКСИКОЛОГИЯ', 'Раздел языкознания, исследующий словарный состав языка и значение слов.']
+        ]]
+      ]
+    };
+
+    Object.entries(additionalCourseTopics).forEach(([subjectName, additions]) => {
+      const subject = subjectCatalog.find(item => item.name === subjectName);
+      additions.forEach(([course, name, words]) => {
+        subject.topics.push({
+          course,
+          name,
+          text: words.map(([word, clue]) => `${word}: ${clue}`).join(' '),
+          words: words.map(([word, clue]) => ({ word, clue }))
+        });
+      });
+    });
+
+    let crosswordTranslations = new Map();
+    let crosswordTranslationLanguage = 'ru';
+    let crosswordTranslationRun = 0;
+    let activePresetTopic = null;
+    let activeUserCrosswordSource = null;
+    const verifiedCrosswordAnswers = {
+      en: {
+        'УРАВНЕНИЕ': 'EQUATION',
+        'КОРЕНЬ': 'ROOT',
+        'КОЭФФИЦИЕНТ': 'COEFFICIENT',
+        'ПЕРЕМЕННАЯ': 'VARIABLE',
+        'ФУНКЦИЯ': 'FUNCTION',
+        'ГРАФИК': 'GRAPH'
+      },
+      uz: {
+        'УРАВНЕНИЕ': 'TENGLAMA',
+        'КОРЕНЬ': 'ILDIZ',
+        'КОЭФФИЦИЕНТ': 'KOEFFITSIENT',
+        'ПЕРЕМЕННАЯ': 'OZGARUVCHI',
+        'ФУНКЦИЯ': 'FUNKSIYA',
+        'ГРАФИК': 'GRAFIK'
+      }
+    };
+
+    function crosswordAnswerContext(item, topic = null) {
+      const topicContext = topic ? `Тема: ${topic.name}. ` : '';
+      return `${topicContext}«${item.word.toLocaleLowerCase('ru-RU')}» — ${item.clue}`;
+    }
+
+    function getContextualCrosswordAnswer(item, translations, language, topic = null) {
+      const verified = verifiedCrosswordAnswers[language]?.[item.word.toLocaleUpperCase('ru-RU')];
+      if (verified) return verified;
+      const translatedContext = translations.get(crosswordAnswerContext(item, topic));
+      const match = translatedContext?.match(/["“«]([^"”»]+)["”»]/u);
+      if (!match || !match[1].trim()) {
+        throw new Error(`Could not identify the translated crossword answer for "${item.word}".`);
+      }
+      return match[1].trim();
+    }
+
+    function localizeCrosswordTopic(topic, language) {
+      if (language === 'ru') return topic;
+      return {
+        ...topic,
+        name: crosswordTranslations.get(topic.name) || topic.name,
+        text: crosswordTranslations.get(topic.text) || topic.text,
+        words: topic.words.map(item => ({
+          word: getContextualCrosswordAnswer(item, crosswordTranslations, language, topic)
+            .toLocaleUpperCase('en-US')
+            .replace(/[^A-Z]/g, ''),
+          clue: crosswordTranslations.get(item.clue) || item.clue
+        }))
+      };
+    }
+
+    function crosswordUiText(ru, en, uz) {
+      const language = window.studyBloomLanguage();
+      return language === 'uz' ? uz : language === 'en' ? en : ru;
+    }
+
+    function updateCrosswordControlsLanguage() {
+      checkAnswersBtn.textContent = crosswordUiText('Проверить ответы', 'Check answers', 'Javoblarni tekshirish');
+      clearAnswersBtn.textContent = crosswordUiText('Очистить клетки', 'Clear grid', 'Kataklarni tozalash');
+    }
+
+    function getCrosswordTranslationValues() {
+      return subjectCatalog.flatMap(subject => [
+        subject.name,
+        ...subject.topics.flatMap(topic => [
+          topic.name,
+          topic.text,
+          ...topic.words.flatMap(item => [
+            item.clue,
+            crosswordAnswerContext(item, topic)
+          ])
+        ])
+      ]);
+    }
+
+    async function updateCrosswordTranslations(language) {
+      const run = ++crosswordTranslationRun;
+      if (language === 'ru') {
+        crosswordTranslations = new Map();
+        crosswordTranslationLanguage = language;
+        renderSubjectMenus();
+        if (activePresetTopic) {
+          lectureInput.value = activePresetTopic.text;
+          await generateFromText(activePresetTopic.text, activePresetTopic);
+        } else if (activeUserCrosswordSource) {
+          await generateFromText(activeUserCrosswordSource);
+        }
+        return;
+      }
+      try {
+        const translations = await window.studyBloomTranslateContent(getCrosswordTranslationValues(), language);
+        if (run !== crosswordTranslationRun) return;
+        crosswordTranslations = translations;
+        crosswordTranslationLanguage = language;
+        renderSubjectMenus();
+        if (activePresetTopic) {
+          const localizedTopic = localizeCrosswordTopic(activePresetTopic, language);
+          lectureInput.value = localizedTopic.text;
+          await generateFromText(localizedTopic.text, localizedTopic);
+        } else if (activeUserCrosswordSource) {
+          await generateFromText(activeUserCrosswordSource);
+        }
+      } catch (error) {
+        console.error('Не удалось перевести готовые кроссворды:', error);
+        topicStatusNode.textContent = language === 'uz'
+          ? 'Tayyor krossvordlarni tarjima qilib bo‘lmadi. Internet aloqasini tekshirib, tilni qayta tanlang.'
+          : 'Ready-made crosswords could not be translated. Check your internet connection and select the language again.';
+      }
+    }
+
     function renderSubjectMenus() {
-      subjectsNode.replaceChildren();
+      const language = window.studyBloomLanguage();
+      const copy = language === 'uz'
+        ? { open: 'Fan va kursni tanlash', title: 'Fanlar va mavzular', help: 'Fanni, so‘ng kurs va mavzuni tanlang.', back: '← Barcha fanlar', course: number => `${number}-kurs` }
+        : language === 'en'
+          ? { open: 'Choose subject and year', title: 'Subjects and topics', help: 'Choose a subject, then a year and topic.', back: '← All subjects', course: number => `Year ${number}` }
+          : { open: 'Выбрать предмет и курс', title: 'Предметы и темы', help: 'Выберите предмет, затем курс и тему.', back: '← Все предметы', course: number => `${number} курс` };
+      openSubjectDialogButton.textContent = copy.open;
+      subjectDialogTitleNode.textContent = copy.title;
+      subjectDialogHelpNode.textContent = copy.help;
+      subjectDialogBackButton.textContent = copy.back;
+      if (!activePresetTopic && !activeUserCrosswordSource) {
+        topicStatusNode.textContent = language === 'uz'
+          ? 'Fan, kurs va mavzuni tanlang — krossvord avtomatik yaratiladi.'
+          : language === 'en'
+            ? 'Choose a subject, year, and topic to generate a crossword.'
+            : 'Выбери предмет, курс и тему — кроссворд создастся автоматически.';
+      }
+      subjectDialogSubjectsNode.replaceChildren();
+      subjectDialogTopicsNode.replaceChildren();
+      subjectDialogSubjectsNode.hidden = false;
+      subjectDialogTopicsNode.hidden = true;
+      subjectDialogBackButton.hidden = true;
       subjectCatalog.forEach(subject => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'subject-menu';
-        const subjectButton = document.createElement('button');
-        subjectButton.className = 'subject-button';
-        subjectButton.type = 'button';
-        subjectButton.setAttribute('aria-haspopup', 'true');
-        subjectButton.setAttribute('aria-expanded', 'false');
-        subjectButton.textContent = `${subject.icon} ${subject.name}⌄`;
-
-        const topicPanel = document.createElement('div');
-        topicPanel.className = 'topic-panel';
-        topicPanel.setAttribute('aria-label', `Темы: ${subject.name}`);
-
-        subject.topics.forEach(topic => {
-          const topicButton = document.createElement('button');
-          topicButton.className = 'topic-button';
-          topicButton.type = 'button';
-          topicButton.textContent = topic.name;
-          topicButton.addEventListener('click', () => {
-            lectureInput.value = topic.text;
-            fileHelpNode.textContent = 'Выбрана готовая тема. Можно отредактировать текст перед генерацией.';
-            topicStatusNode.textContent = `Выбрано: ${subject.name} · ${topic.name}`;
-            generateFromText(topic.text, topic);
-            subjectsNode.querySelectorAll('.subject-menu').forEach(menu => {
-              menu.classList.remove('open');
-              menu.querySelector('.subject-button').setAttribute('aria-expanded', 'false');
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = `${subject.icon} ${window.studyBloomTranslate(subject.name)}`;
+        button.addEventListener('click', () => {
+          subjectDialogSubjectsNode.hidden = true;
+          subjectDialogTopicsNode.hidden = false;
+          subjectDialogBackButton.hidden = false;
+          subjectDialogTitleNode.textContent = window.studyBloomTranslate(subject.name);
+          subjectDialogHelpNode.textContent = copy.help;
+          subjectDialogTopicsNode.replaceChildren();
+          const courses = new Map();
+          subject.topics.forEach((topic, index) => {
+            const course = topic.course || Math.min(index + 1, 4);
+            if (!courses.has(course)) courses.set(course, []);
+            courses.get(course).push(topic);
+          });
+          courses.forEach((topics, course) => {
+            const section = document.createElement('section');
+            section.className = 'subject-course-group';
+            const heading = document.createElement('h3');
+            heading.textContent = copy.course(course);
+            const topicButtons = document.createElement('div');
+            topicButtons.className = 'subject-course-topics';
+            topics.forEach(topic => {
+              const topicButton = document.createElement('button');
+              topicButton.type = 'button';
+              topicButton.textContent = crosswordTranslations.get(topic.name) || window.studyBloomTranslate(topic.name);
+              topicButton.addEventListener('click', async () => {
+                const selectedLanguage = window.studyBloomLanguage();
+                if (crosswordTranslationLanguage !== selectedLanguage) {
+                  topicStatusNode.textContent = selectedLanguage === 'uz'
+                    ? 'Tayyor krossvord tarjima qilinmoqda…'
+                    : 'Translating the ready-made crossword…';
+                  await updateCrosswordTranslations(selectedLanguage);
+                  if (crosswordTranslationLanguage !== selectedLanguage) return;
+                }
+                const localizedTopic = localizeCrosswordTopic(topic, selectedLanguage);
+                lectureInput.value = localizedTopic.text;
+                fileHelpNode.textContent = selectedLanguage === 'uz'
+                  ? 'Tayyor mavzu tanlandi. Yaratishdan oldin matnni tahrirlashingiz mumkin.'
+                  : selectedLanguage === 'en'
+                    ? 'Ready-made topic selected. You can edit the text before generating.'
+                    : 'Выбрана готовая тема. Можно отредактировать текст перед генерацией.';
+                const selectedSubject = window.studyBloomTranslate(subject.name);
+                const selectedTopic = window.studyBloomTranslate(topic.name);
+                topicStatusNode.textContent = selectedLanguage === 'ru'
+                  ? `Выбрано: ${selectedSubject} · ${selectedTopic}`
+                  : `Selected: ${selectedSubject} · ${selectedTopic}`;
+                activePresetTopic = topic;
+                subjectDialog.close();
+                await generateFromText(localizedTopic.text, localizedTopic);
+              });
+              topicButtons.appendChild(topicButton);
             });
+            section.append(heading, topicButtons);
+            subjectDialogTopicsNode.appendChild(section);
           });
-          topicPanel.appendChild(topicButton);
         });
-
-        subjectButton.addEventListener('click', () => {
-          const shouldOpen = !wrapper.classList.contains('open');
-          subjectsNode.querySelectorAll('.subject-menu').forEach(menu => {
-            menu.classList.remove('open');
-            menu.querySelector('.subject-button').setAttribute('aria-expanded', 'false');
-          });
-          if (shouldOpen) {
-            wrapper.classList.add('open');
-            subjectButton.setAttribute('aria-expanded', 'true');
-          }
-        });
-
-        wrapper.addEventListener('pointerenter', () => subjectButton.setAttribute('aria-expanded', 'true'));
-        wrapper.addEventListener('pointerleave', () => {
-          if (!wrapper.classList.contains('open') && !wrapper.matches(':focus-within')) {
-            subjectButton.setAttribute('aria-expanded', 'false');
-          }
-        });
-        wrapper.addEventListener('focusin', () => subjectButton.setAttribute('aria-expanded', 'true'));
-        wrapper.addEventListener('focusout', event => {
-          if (!wrapper.contains(event.relatedTarget) && !wrapper.classList.contains('open')) {
-            subjectButton.setAttribute('aria-expanded', 'false');
-          }
-        });
-
-        wrapper.append(subjectButton, topicPanel);
-        subjectsNode.appendChild(wrapper);
+        subjectDialogSubjectsNode.appendChild(button);
       });
     }
 
     renderSubjectMenus();
+    openSubjectDialogButton.addEventListener('click', () => subjectDialog.showModal());
+    document.getElementById('closeSubjectDialog').addEventListener('click', () => subjectDialog.close());
+    subjectDialogBackButton.addEventListener('click', () => renderSubjectMenus());
+    subjectDialog.addEventListener('click', event => {
+      if (event.target === subjectDialog) subjectDialog.close();
+    });
+    updateCrosswordControlsLanguage();
+    window.addEventListener('studyBloomLanguageChange', event => {
+      updateCrosswordControlsLanguage();
+      updateCrosswordTranslations(event.detail.language);
+    });
 
     function normalizeText(text) {
       return text
@@ -1748,7 +2641,7 @@
     }
 
     function buildCrossword(words) {
-      const size = Math.max(12, Math.ceil(words.length * 0.9));
+      const size = Math.max(12, ...words.map(item => item.word.length), Math.ceil(words.length * 0.9));
       const board = Array.from({ length: size }, () => Array(size).fill(''));
       const placements = [];
       const ordered = [...words].sort((a, b) => b.word.length - a.word.length);
@@ -1911,9 +2804,18 @@
       const title = document.createElement('p');
       title.className = 'wrong-feedback-title';
       title.id = 'wrongFeedbackTitle';
-      title.textContent = allWrong
-        ? 'Упс, все ответы пока неправильные. Попробуй ещё раз!'
-        : `Проверь ${wrongPlacements.length === 1 ? 'этот вопрос' : 'эти вопросы'}:`;
+      const language = window.studyBloomLanguage();
+      title.textContent = language === 'uz'
+        ? allWrong
+          ? 'Afsus, barcha javoblar noto‘g‘ri. Yana urinib ko‘ring!'
+          : 'Quyidagi maslahatlarni tekshiring:'
+        : language === 'en'
+          ? allWrong
+            ? 'Oops, all answers are incorrect so far. Try again!'
+            : 'Check these clues:'
+          : allWrong
+            ? 'Упс, все ответы пока неправильные. Попробуй ещё раз!'
+            : `Проверь ${wrongPlacements.length === 1 ? 'этот вопрос' : 'эти вопросы'}:`;
       dialog.setAttribute('aria-labelledby', title.id);
       dialog.appendChild(title);
 
@@ -1923,7 +2825,11 @@
         const clue = activeCluesByWord.get(placement.word);
         if (!clue) return;
         const item = document.createElement('li');
-        const direction = placement.dir === 'across' ? 'по горизонтали' : 'по вертикали';
+        const direction = language === 'uz'
+          ? placement.dir === 'across' ? 'eniga' : 'bo‘yiga'
+          : language === 'en'
+            ? placement.dir === 'across' ? 'across' : 'down'
+            : placement.dir === 'across' ? 'по горизонтали' : 'по вертикали';
         item.textContent = `${placement.number}. ${direction}: ${clue}`;
         list.appendChild(item);
       });
@@ -1986,7 +2892,11 @@
             input.spellcheck = false;
             input.dataset.row = rowIndex;
             input.dataset.col = colIndex;
-            input.setAttribute('aria-label', `Буква, строка ${rowIndex + 1}, столбец ${colIndex + 1}`);
+            input.setAttribute('aria-label', crosswordUiText(
+              `Буква, строка ${rowIndex + 1}, столбец ${colIndex + 1}`,
+              `Letter, row ${rowIndex + 1}, column ${colIndex + 1}`,
+              `Harfi, ${rowIndex + 1}-qator, ${colIndex + 1}-ustun`
+            ));
             div.appendChild(input);
             filledCellIndex += 1;
           }
@@ -1998,7 +2908,11 @@
       const totalFilled = board.flat().filter(Boolean).length;
       gridCountNode.textContent = totalFilled;
       crosswordControls.hidden = false;
-      answerStatusNode.textContent = `В сетке ${totalFilled} буквенных клеток. Вводи по одной букве; стрелками можно перемещаться между клетками.`;
+      answerStatusNode.textContent = crosswordUiText(
+        `В сетке ${totalFilled} буквенных клеток. Вводи по одной букве; стрелками можно перемещаться между клетками.`,
+        `The grid has ${totalFilled} letter cells. Enter one letter per cell; use the arrow keys to move.`,
+        `To‘rda ${totalFilled} ta harf katagi bor. Har bir katakka bittadan harf kiriting; strelkalar bilan harakatlaning.`
+      );
     }
 
     function renderClues(words, placements) {
@@ -2006,8 +2920,22 @@
       downCluesNode.innerHTML = '';
 
       if (!placements.length) {
-        acrossCluesNode.innerHTML = '<li class="empty-state">Пока нет подсказок. Загрузите текст и сгенерируйте кроссворд.</li>';
-        downCluesNode.innerHTML = '<li class="empty-state">Доступно после генерации.</li>';
+        acrossCluesNode.textContent = '';
+        downCluesNode.textContent = '';
+        acrossCluesNode.appendChild(document.createElement('li'));
+        acrossCluesNode.firstElementChild.className = 'empty-state';
+        acrossCluesNode.firstElementChild.textContent = crosswordUiText(
+          'Пока нет подсказок. Загрузите текст и сгенерируйте кроссворд.',
+          'No clues yet. Add text and generate a crossword.',
+          'Hozircha maslahatlar yo‘q. Matn kiriting va krossvord yarating.'
+        );
+        downCluesNode.appendChild(document.createElement('li'));
+        downCluesNode.firstElementChild.className = 'empty-state';
+        downCluesNode.firstElementChild.textContent = crosswordUiText(
+          'Доступно после генерации.',
+          'Available after generation.',
+          'Yaratilgandan keyin mavjud bo‘ladi.'
+        );
         return;
       }
 
@@ -2029,10 +2957,16 @@
       });
 
       if (!acrossCluesNode.children.length) {
-        acrossCluesNode.innerHTML = '<li class="empty-state">Нет слов по горизонтали.</li>';
+        const empty = document.createElement('li');
+        empty.className = 'empty-state';
+        empty.textContent = crosswordUiText('Нет слов по горизонтали.', 'No across words.', 'Eniga so‘zlar yo‘q.');
+        acrossCluesNode.appendChild(empty);
       }
       if (!downCluesNode.children.length) {
-        downCluesNode.innerHTML = '<li class="empty-state">Нет слов по вертикали.</li>';
+        const empty = document.createElement('li');
+        empty.className = 'empty-state';
+        empty.textContent = crosswordUiText('Нет слов по вертикали.', 'No down words.', 'Bo‘yiga so‘zlar yo‘q.');
+        downCluesNode.appendChild(empty);
       }
     }
 
@@ -2049,7 +2983,12 @@
 
       const enteredCount = [...crosswordNode.querySelectorAll('.cell-input')]
         .filter(cell => cell.value.length > 0).length;
-      answerStatusNode.textContent = `Введено ${enteredCount} из ${crosswordNode.querySelectorAll('.cell-input').length} букв.`;
+      const totalCells = crosswordNode.querySelectorAll('.cell-input').length;
+      answerStatusNode.textContent = window.studyBloomLanguage() === 'uz'
+        ? `${totalCells} ta harfdan ${enteredCount} tasi kiritildi.`
+        : window.studyBloomLanguage() === 'en'
+          ? `${enteredCount} of ${totalCells} letters entered.`
+          : `Введено ${enteredCount} из ${totalCells} букв.`;
 
       if (input.value) moveToNextCell(input, 0, 1);
     });
@@ -2098,22 +3037,39 @@
       });
       const wrongPlacements = results.filter(result => result.hasWrongLetter);
       const correctWords = results.filter(result => result.isCorrect).length;
+      const language = window.studyBloomLanguage();
       const allQuestionsWrong = results.length > 0 &&
         results.every(result => result.hasAnswer && !result.isCorrect);
 
       if (correctWords === results.length) {
         hideWrongFeedback();
-        answerStatusNode.textContent = 'Всё верно! Отличная работа, кроссворд решён 🌸';
+        answerStatusNode.textContent = language === 'uz'
+          ? 'Hammasi to‘g‘ri! Ajoyib, krossvord yechildi 🌸'
+          : language === 'en'
+            ? 'Everything is correct! Great job, the crossword is solved 🌸'
+            : 'Всё верно! Отличная работа, кроссворд решён 🌸';
       } else if (!results.some(result => result.hasAnswer)) {
         hideWrongFeedback();
-        answerStatusNode.textContent = 'Пока нет ответов — заполни клетки по подсказкам.';
+        answerStatusNode.textContent = language === 'uz'
+          ? 'Hozircha javob yo‘q — kataklarni maslahatlar asosida to‘ldiring.'
+          : language === 'en'
+            ? 'No answers yet — fill in the cells using the clues.'
+            : 'Пока нет ответов — заполни клетки по подсказкам.';
       } else if (!wrongPlacements.length) {
         hideWrongFeedback();
-        answerStatusNode.textContent = `Пока нет полностью решённых слов: ${correctWords} из ${results.length}. Заполни оставшиеся клетки.`;
+        answerStatusNode.textContent = language === 'uz'
+          ? `Hozircha to‘liq yechilgan so‘zlar: ${correctWords} / ${results.length}. Qolgan kataklarni to‘ldiring.`
+          : language === 'en'
+            ? `Words fully solved so far: ${correctWords} of ${results.length}. Fill in the remaining cells.`
+            : `Пока нет полностью решённых слов: ${correctWords} из ${results.length}. Заполни оставшиеся клетки.`;
       } else {
         document.querySelector('.crossword-board').scrollIntoView({ behavior: 'smooth', block: 'center' });
         showWrongFeedback(allQuestionsWrong ? results : wrongPlacements);
-        answerStatusNode.textContent = `Верно решено слов: ${correctWords} из ${results.length}. Проверь вопросы, отмеченные в окошке ниже.`;
+        answerStatusNode.textContent = language === 'uz'
+          ? `To‘g‘ri yechilgan so‘zlar: ${correctWords} / ${results.length}. Quyidagi oynada belgilangan savollarni tekshiring.`
+          : language === 'en'
+            ? `Words solved correctly: ${correctWords} of ${results.length}. Check the clues marked below.`
+            : `Верно решено слов: ${correctWords} из ${results.length}. Проверь вопросы, отмеченные в окошке ниже.`;
       }
     });
 
@@ -2124,12 +3080,18 @@
         input.parentElement.classList.remove('correct', 'incorrect');
       });
       const inputs = crosswordNode.querySelectorAll('.cell-input');
-      answerStatusNode.textContent = `Ответы очищены. В сетке ${inputs.length} буквенных клеток.`;
+      const language = window.studyBloomLanguage();
+      answerStatusNode.textContent = language === 'uz'
+        ? `Javoblar tozalandi. To‘rda ${inputs.length} ta harf katagi bor.`
+        : language === 'en'
+          ? `Answers cleared. The grid has ${inputs.length} letter cells.`
+          : `Ответы очищены. В сетке ${inputs.length} буквенных клеток.`;
       inputs[0]?.focus();
     });
 
-    function generateFromText(rawText, preset = null) {
+    async function generateFromText(rawText, preset = null) {
       const text = rawText.trim();
+      const language = window.studyBloomLanguage();
       if (!text) {
         aiSummaryNode.textContent = 'Текст пустой. Сначала вставьте лекцию или загрузите файл.';
         aiSummaryNode.classList.remove('updated');
@@ -2137,15 +3099,38 @@
         aiSummaryNode.classList.add('updated');
         return false;
       }
+      if (!preset) activePresetTopic = null;
 
       const requestedWordCount = Number(wordCountNode.value);
       const keywords = extractKeywords(text, requestedWordCount);
       const wordsCount = normalizeText(text).split(/\s+/).filter(Boolean).length;
-      const extractedWords = keywords.map((item, idx) => {
+      let extractedWords = keywords.map((item, idx) => {
         const context = findContext(text, item.word);
         const clue = generateClueText(item.word, context);
         return { ...item, clue, index: idx + 1 };
       });
+      if (!preset && language !== 'ru' && extractedWords.length) {
+        try {
+          const translations = await window.studyBloomTranslateContent(extractedWords.flatMap(item => [
+            item.clue, crosswordAnswerContext(item)
+          ]), language);
+          extractedWords = extractedWords
+            .map(item => ({
+              ...item,
+              word: getContextualCrosswordAnswer(item, translations, language)
+                .toLocaleUpperCase('en-US')
+                .replace(/[^A-Z]/g, ''),
+              clue: translations.get(item.clue) || item.clue
+            }))
+            .filter(item => item.word.length >= 2);
+        } catch (error) {
+          console.error('Не удалось перевести слова и подсказки кроссворда:', error);
+          aiSummaryNode.textContent = language === 'uz'
+            ? 'Krossvordni tanlangan tilga tarjima qilib bo‘lmadi. Internet aloqasini tekshirib, qayta urinib ko‘ring.'
+            : 'The crossword could not be translated into the selected language. Check your internet connection and try again.';
+          return false;
+        }
+      }
       const presetWords = preset
         ? preset.words.map((item, idx) => ({
             word: item.word.toLocaleUpperCase('ru-RU'),
@@ -2155,7 +3140,7 @@
           }))
         : [];
       const seenWords = new Set();
-      const puzzleWords = [...presetWords, ...extractedWords]
+      const puzzleWords = (preset ? presetWords : extractedWords)
         .filter(item => {
           if (seenWords.has(item.word)) return false;
           seenWords.add(item.word);
@@ -2172,6 +3157,7 @@
       }
 
       const { board, placements } = buildCrossword(puzzleWords);
+      activeUserCrosswordSource = preset ? null : text;
       const placedWords = placements
         .map(placement => puzzleWords.find(item => item.word === placement.word))
         .filter(Boolean);
@@ -2181,9 +3167,17 @@
 
       wordsCountNode.textContent = wordsCount;
       keywordCountNode.textContent = placedWords.length;
-      aiSummaryNode.textContent = preset
-        ? `Готовый кроссворд «${preset.name}»: добавлено слов ${placedWords.length} из ${requestedWordCount}. Впиши ответы в клетки и нажми «Проверить ответы».`
-        : `Выделены ключевые термины, в сетку добавлено слов: ${placedWords.length} из ${requestedWordCount}. Впиши ответы в клетки и нажми «Проверить ответы».`;
+      aiSummaryNode.textContent = language === 'uz'
+        ? preset
+          ? `Tayyor «${preset.name}» krossvordi: ${requestedWordCount} tadan ${placedWords.length} ta so‘z joylashtirildi. Javoblarni kataklarga kiriting va «Javoblarni tekshirish» tugmasini bosing.`
+          : `Kalit so‘zlar ajratildi, to‘rga ${requestedWordCount} tadan ${placedWords.length} ta so‘z joylashtirildi. Javoblarni kataklarga kiriting va «Javoblarni tekshirish» tugmasini bosing.`
+        : language === 'en'
+          ? preset
+            ? `Ready-made crossword “${preset.name}”: ${placedWords.length} of ${requestedWordCount} words placed. Enter the answers in the grid and select “Check answers”.`
+            : `Key terms extracted; ${placedWords.length} of ${requestedWordCount} words placed in the grid. Enter the answers and select “Check answers”.`
+          : preset
+            ? `Готовый кроссворд «${preset.name}»: добавлено слов ${placedWords.length} из ${requestedWordCount}. Впиши ответы в клетки и нажми «Проверить ответы».`
+            : `Выделены ключевые термины, в сетку добавлено слов: ${placedWords.length} из ${requestedWordCount}. Впиши ответы в клетки и нажми «Проверить ответы».`;
       aiSummaryNode.classList.remove('updated');
       void aiSummaryNode.offsetWidth;
       aiSummaryNode.classList.add('updated');
@@ -2191,28 +3185,48 @@
       return true;
     }
 
-    generateBtn.addEventListener('click', () => {
-      if (generateFromText(lectureInput.value)) materialDialog.close();
+    generateBtn.addEventListener('click', async () => {
+      if (await generateFromText(lectureInput.value)) materialDialog.close();
     });
 
-    sampleBtn.addEventListener('click', () => {
+    sampleBtn.addEventListener('click', async () => {
       const sample = `Электрический ток — это направленное движение заряженных частиц. В металлах носителями тока являются электроны, а в электролитах — ионы. Закон Ома описывает зависимость силы тока от напряжения и сопротивления. Сопротивление зависит от длины проводника, площади сечения и материала. В цепи могут соединяться элементы последовательно и параллельно. Напряжение измеряется в вольтах, сила тока — в амперах, сопротивление — в омах. Конденсатор накапливает электрический заряд, а катушка создает магнитное поле при протекании тока.`;
       lectureInput.value = sample;
       fileHelpNode.textContent = 'Пример вставлен в поле. Сейчас создадим кроссворд.';
-      if (generateFromText(sample)) materialDialog.close();
+      if (await generateFromText(sample)) materialDialog.close();
     });
 
     fileInput.addEventListener('change', async (event) => {
       const file = event.target.files[0];
       if (!file) return;
 
+      const name = String(file.name || '').toLowerCase();
+      const dot = name.lastIndexOf('.');
+      const ext = dot === -1 ? '' : name.slice(dot);
+      if (!ALLOWED_TEXT_EXTENSIONS.has(ext)) {
+        fileHelpNode.textContent = `Неподдерживаемое расширение «${ext || 'без расширения'}». Разрешены: ${[...ALLOWED_TEXT_EXTENSIONS].join(', ')}.`;
+        fileInput.value = '';
+        return;
+      }
+      if (file.size > MAX_FILE_SIZE) {
+        fileHelpNode.textContent = 'Файл слишком большой. Максимум 25 МБ.';
+        fileInput.value = '';
+        return;
+      }
+
+      fileInput.disabled = true;
+      fileHelpNode.textContent = `Читаю файл «${file.name}»…`;
       try {
-        const text = await file.text();
+        const text = await readUploadedText(file);
         lectureInput.value = text;
-        fileHelpNode.textContent = `Загружен файл: ${file.name}`;
+        fileHelpNode.textContent = `Загружен файл: ${file.name}. Текст вставлен в поле и готов к генерации.`;
       } catch (error) {
-        fileHelpNode.textContent = 'Не удалось прочитать файл. Попробуй TXT, MD, CSV или JSON.';
-        aiSummaryNode.textContent = 'Ошибка чтения файла. Проверь формат и попробуй ещё раз.';
+        console.error('Не удалось прочитать файл:', error);
+        fileHelpNode.textContent = error instanceof Error ? error.message : 'Не удалось прочитать файл. Попробуй другой файл или вставь текст вручную.';
+        aiSummaryNode.textContent = 'Файл не загружен. Проверь формат или попробуй вставить текст вручную.';
+      } finally {
+        fileInput.disabled = false;
+        fileInput.value = '';
       }
     });
 
